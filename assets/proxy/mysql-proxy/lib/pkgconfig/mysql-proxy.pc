@@ -1,0 +1,13 @@
+prefix=/export/home2/tmp/merlin/bs/mysql-proxy-64bit/inst/mysql-proxy
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+pkglibdir=${exec_prefix}/lib/mysql-proxy
+lualibdir=${pkglibdir}/lua
+plugindir=${pkglibdir}/plugins
+
+Name: MySQL Proxy
+Version: 0.8.1
+Description: MySQL Proxy
+URL: http://forge.mysql.com/wiki/MySQL_Proxy
+Requires: glib-2.0 >= 2.16, mysql-chassis >= 0.8.1
+Libs: -L${libdir} -lmysql-proxy

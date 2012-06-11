@@ -1,0 +1,288 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0b1 | 201101 
+   NOTE: WORK IN PROGRESS
+   USE WITH CAUTION AND TEST WITH ABANDON */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+/* remember to define visible focus styles! 
+:focus {
+	outline: ?????;
+} */
+
+/* remember to highlight inserts somehow! */
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.main {
+	width: 980px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.column {
+	float: left;
+}
+
+.row, .hRow {
+	clear: both;
+}
+
+.menu {
+	height: 38px;
+	background-color: #e6e6e6;
+	width: 980px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: right;
+}
+
+.menuItem {
+	padding: 4px;
+	height: 30px;
+	line-height: 30px;
+	margin-left: 10px;
+	padding-left: 8px;
+	padding-right: 8px;
+	position: relative;
+	display: inline-block;
+}
+
+.menuPlaceholder {
+	float: left;
+	padding: 4px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.menuItem:hover {
+	background-color: #d4d4d4;
+	cursor: pointer;
+}
+
+.menuItem a {
+	color: #666666;
+	text-decoration: none;
+}
+
+strong {
+	font-weight: bold;
+}
+
+.leftColumn {
+	width: 100px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.rightColumn {
+	width: 100px;
+	height: 30px;
+	line-height: 30px
+}
+
+.loginContainer {
+	width: 980px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	text-align: center;
+}
+
+.loginForm {
+	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+.second {
+	background-color: #bbbbbb;
+}
+
+.third {
+	background-color: #777777;
+}
+
+.third .menuItem {
+	color: #ffffff;
+}
+
+.third .menuItem:hover {
+	background-color: #333333;
+	color: #ffffff;
+	text-align: left;
+}
+
+.menu .message {
+
+}
+
+.menuGroup {
+	position: relative;
+}
+
+.active {
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.body {
+	width: 980px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.contentBlock {
+	padding: 10px;
+}
+
+.menuHighlight {
+	color: #ffffff;
+}
+
+.heavy {
+	font-weight: bold;
+}
+
+.lightGrey {
+	color: #c0c0c0;
+}
+
+.wide .leftColumn {
+	width: 150px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.wide .rightColumn {
+	width: 500px;
+	height: 30px;
+	line-height: 30px
+}
+
+.wider {
+	width: 200px;
+}
+
+.validation {
+	color: #F00;
+}
+
+.long {
+	height: auto !important;
+}
+
+.ui-autocomplete li {
+	cursor: pointer;
+	list-style: none;
+}
+
+.ui-autocomplete {
+	background-color: #ffffff;
+	width: 200px;
+}
+
+.hero-unit {
+	min-height: 200px;
+}
+
+.spacedRow {
+	margin-bottom: 5px;
+}
+
+.full {
+	height: auto !important;
+}
+
+.listHeader {
+	margin-bottom: 10px;
+}
+
+.listItems {
+	width: auto;
+}
+
+.nav li:hover a {
+	background: none !important;
+}
+
+.btn-group .active {
+	text-decoration: none !important;
+}
+
+.fixedForm {
+	margin-left: 20px;
+}
+
+.help-inline {
+
+}
+
+.autoWide {
+	width: auto !important;
+}
+
+.clean {
+	padding: 0px !important;
+	margin: 0px !important;
+}
+
+.number {
+	color: #036;
+}
+
+.thinTable {
+	width: 600px !important;
+}

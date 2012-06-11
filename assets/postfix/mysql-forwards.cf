@@ -1,0 +1,5 @@
+user = grape
+password = grapestack
+dbname = mail
+query = SELECT destination FROM forwards WHERE source='%s'
+hosts = 127.0.0.1

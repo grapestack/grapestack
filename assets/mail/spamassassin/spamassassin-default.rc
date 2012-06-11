@@ -1,0 +1,24 @@
+DEFAULT=$HOME/$DOMAIN/$USER/Maildir/
+MAILDIR=$HOME/$DOMAIN/$USER/Maildir/
+mkdir -p $HOME/$DOMAIN/$USER
+
+:0 Wic
+| mkdir -p $HOME/$DOMAIN/$USER
+
+:0 Wic
+| mkdir -p $MAILDIR
+
+:0 Wic
+| mkdir -p $MAILDIR/.spam
+
+:0 Wic
+| mkdir -p $MAILDIR/.spam/cur
+
+# send mail through spamassassin
+:0fw
+| /usr/bin/spamassassin
+
+# All mail tagged as spam is moved to "spam" folder.
+:0:
+* ^X-Spam-Status: Yes
+$HOME/$DOMAIN/$USER/Maildir/.spam/cur

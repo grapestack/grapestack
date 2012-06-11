@@ -1,0 +1,105 @@
+#!/bin/sh
+
+# bigcouch init.d
+#
+# Copyright 2011 by David Pratt <fairwinds.dp@gmail.com>
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may not
+# use this file except in compliance with the License. You may obtain a copy of
+# the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations under
+# the License.
+
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ "$NETWORKING" = "no" ] && exit 0
+
+exec="/grape/bigcouch/bin/bigcouch"
+prog="bigcouch"
+pidfile="/var/run/bigcouch/$prog.pid"
+lockfile=/var/lock/subsys/$prog
+RETVAL=0
+
+# Create pid folder if it doesn't exist            
+[ -d /var/run/bigcouch ] || mkdir /var/run/bigcouch
+
+if [ -f $pidfile ]; then
+   pid=$(cat $pidfile)
+fi
+
+start() {
+    [ -x $exec ] || exit 1    
+
+    if [ -n "$pid" ]; then
+        echo "$0: bigcouch [PID $pid] already running"
+        exit
+    fi
+    
+    echo -n "Starting $prog: "
+    daemon --user bigcouch --pidfile $pidfile $exec > /dev/null 2>&1 &
+    [ $? -eq 0 ] && success && touch $lockfile || failure
+    echo
+
+    echo -n "Creating pidfile: "
+    pidofproc $prog > $pidfile
+    [ $? -eq 0 ] && success || failure
+    echo
+    return $RETVAL
+}
+
+stop() {
+    if [ -n "$pid" ]; then
+        echo -n "Stopping $prog: "
+        killproc -p $pidfile -QUIT
+        RETVAL=$?
+        [ $RETVAL -eq 0 ] && rm -f $lockfile
+        echo
+ 
+        echo -n "Killing  processes: "
+        kill $(pgrep -u bigcouch)
+        [ $? -eq 0 ] && success || failure
+        echo
+        return $RETVAL
+    else
+        echo "$0: bigcouch is not running"
+        exit
+    fi
+}
+
+restart() {
+    stop
+    start
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    status)
+        status $prog
+        RETVAL=$?
+        ;;
+    *)
+      echo $"Usage: $0 {start|stop|restart|status}"
+        exit 2
+
+esac
+exit $RETVAL

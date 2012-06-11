@@ -1,0 +1,5 @@
+#!/bin/bash
+
+/usr/bin/spamc | /usr/sbin/sendmail.postfix -i "$@"
+
+exit $?
