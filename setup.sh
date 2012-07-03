@@ -18,8 +18,8 @@ cd /grape/
 sudo tar -xf /grape/install/apache-tomcat-7.0.21.tar.gz
 sudo mv /grape/apache-tomcat-7.0.21 /grape/tomcat
 #sudo rpm -Uvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-5.noarch.rpm
-sudo rpm -Uvh http://mirror.cogentco.com/pub/linux/epel/6/i386/epel-release-6-7.noarch.rpm
-sudo rpm -Uvh http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
+sudo rpm -Uvh http://beta.grapestack.com/downloads/epel-release-6-7.noarch.rpm
+sudo rpm -Uvh http://beta.grapestack.com/downloads/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
 sudo yum -y install git
 
 sudo chown -R grape /grape
@@ -649,5 +649,5 @@ sudo chkconfig couchdb on
 sudo echo "PATH=/grape/bin:/grape:$PATH" >> /home/grape/.bash_profile
 sudo echo "export PATH=/grape/bin:/grape:$PATH" >> /home/grape/.bash_profile
 
-sudo echo "PATH=/grape/bin:/grape:$PATH" >> /root/.bash_profile
-sudo echo "export PATH=/grape/bin:/grape:$PATH" >> /root/.bash_profile
+#sudo echo "PATH=/grape/bin:/grape:$PATH" >> /root/.bash_profile
+#sudo echo "export PATH=/grape/bin:/grape:$PATH" >> /root/.bash_profile

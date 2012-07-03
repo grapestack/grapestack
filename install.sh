@@ -45,6 +45,7 @@ groupadd spamd
 useradd -g spamd -s /bin/false -d /var/log/spamassassin spamd
 
 iptables -I INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+iptables -I INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 iptables -I INPUT -p tcp -m tcp --dport 8080 -j ACCEPT
 iptables -I INPUT -p tcp -m tcp --dport 8009 -j ACCEPT
 iptables -I INPUT -p tcp -m tcp --dport 3306 -j ACCEPT
@@ -333,7 +334,15 @@ host() {
 
 		mkdir /grape
 
-        DOWNLOADIP="10.183.130.31"
+		DOWNLOADIP="10.183.130.31"
+		echo "Determining download server..."
+		ping -c 1 $DOWNLOADIP &> /dev/null
+		if [ $? -eq 0 ] ; then
+				HOST="r"
+		else
+				HOST="a"
+		fi
+		echo "Download server configured"
 
 		if [ "$HOST" == "" ]; then
 		
