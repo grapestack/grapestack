@@ -1,62 +1,116 @@
-<cfcomponent output="false">
+component{
 
-<cfproperty name="hashTest" inject="id:hashTest" scope="instance">
+	function login(event,rc,prc){
+		// set a view for rendering
+		event.setLayout("Layout.Main");
+		event.setView("login");
+        
+    	structClear(session);
+        
+        if (NOT isDefined("rc.loginResults")) {
+			rc.loginResults = ORMExecuteQuery("from user where email = '#rc.email#' and password = '#rc.password#'");
+        }
+                
+        if (arrayLen(rc.loginResults)) {
+        	rc.returnValue = true;
 
-<!------------------------------------------- GLOBAL IMPLICIT EVENTS ONLY ------------------------------------------>
-<!--- In order for these events to fire, you must declare them in the coldbox.xml.cfm --->
-	
-	<cffunction name="index" returntype="void" output="false">
-		<cfargument name="event" required="true">
-        <cfset event.setLayout("Layout.Main")>
+            rc.roles = [];
+            
+            for ( var item in rc.loginResults[1].getRoles() ) {
+            	rc.roles[arrayLen(rc.roles)+1] = item;
+            }                        
+            
+            if (isDefined("rc.fbToken")) {
+                rc.loginResults[1].setFacebookToken(rc.fbToken);
+                EntitySave(rc.loginResults[1]);
+                ORMFlush();                              
+            }
+            
+            session.User = createObject("component", "models.user");
+            session.User.setUserid(rc.loginResults[1].getUserid());
+            session.User.setEmail(rc.loginResults[1].getEmail());            
+            session.User.setRoles(rc.roles);
+                        
+			if (NOT Event.isProxyRequest() and isDefined("rc.fbToken")) {
+            	//setNextEvent(uri='/');
+				event.setView("home");
+                event.setLayout("Layout.FacebookAuth");
+            }
+
+        } else {
+        	rc.returnValue = false;
+        }
         
-        <cfif isDefined("session.User")>
-	        <cfset event.setLayout("Layout.Home")>
-        <cfelse>
-	        <cfset event.setLayout("Layout.Main")>
-        </cfif>
+		if (Event.isProxyRequest()) {
+    	    return rc.returnValue;
+		}
         
-	</cffunction> 
+	}	
+
+	function logout(event,rc,prc){
+    	structClear(session);
+        
+        if (NOT Event.isProxyRequest()) {
+        	setNextEvent(uri='/');
+        }
+        
+		if (Event.isProxyRequest()) {
+    	    return true;
+		}
+        
+	}
     
-	<cffunction name="onAppInit" returntype="void" output="false">
-		<cfargument name="event" required="true">
-	</cffunction>
-
-	<cffunction name="onRequestStart" returntype="void" output="false">
-		<cfargument name="event" required="true">
-	</cffunction>
-
-	<cffunction name="onRequestEnd" returntype="void" output="false">
-		<cfargument name="event" required="true">
-	</cffunction>
-	
-	<cffunction name="onSessionStart" returntype="void" output="false">
-		<cfargument name="event" required="true">
-	</cffunction>
-	
-	<cffunction name="onSessionEnd" returntype="void" output="false">
-		<cfargument name="event" required="true">
-		<cfset var sessionScope = event.getValue("sessionReference")>
-		<cfset var applicationScope = event.getValue("applicationReference")>
+    function facebook(event,rc,prc) {
+    
+         if (NOT isDefined("rc.loginResults")) {
+			rc.loginResults = ORMExecuteQuery("from user where facebookID = #rc.facebookID#");
+        }
+        
+        if (arrayLen(rc.loginResults)) {
+        	runEvent("user.login");
+        } else {
+            event.setLayout("Layout.Main");
+            runEvent("user.create");
+        }
+    	
+    }
+    
+	function create(event,rc,prc){
+		// set a view for rendering
+		event.setLayout("Layout.Main");
+		event.setView("create");
+        
+    	structClear(session);
+        
+        session.User = EntityNew('user');
+        
+        if (isDefined("rc.facebookID")) {
+	        session.User.setFacebookID(rc.facebookID);
+	        session.User.setUsername(rc.facebookID);
+	        session.User.setDisplayname(rc.facebookID);
+	        session.User.setEmail(rc.fbEmail);
+	        session.User.setFacebookToken(rc.fbToken);
+        } else {
+            session.User.setEmail(rc.email);
+            session.User.setUsername(rc.email);
+            session.User.setDisplayname(rc.email);
+            session.User.setPassword(rc.password);
+        }
+        
+        rc.roles = EntityLoad("role", 2);
+        session.User.setRoles(rc.roles);
+        EntitySave(session.User);
 		
-	</cffunction>
+        if (isDefined("rc.facebookID")) {
+            event.setLayout("Layout.FacebookAuth");
+        } else {
+	        runEvent("Main.index");
+        }
+        
+		if (Event.isProxyRequest()) {
+    	    return rc.returnValue;
+		}
+        
+	}	
 
-	<cffunction name="onException" returntype="void" output="false">
-		<cfargument name="event" required="true">
-		<cfscript>
-			//Grab Exception From request collection, placed by ColdBox
-			var exceptionBean = event.getValue("ExceptionBean");
-			//Place exception handler below:
-
-		</cfscript>
-	</cffunction>
-	
-	<cffunction name="onMissingTemplate" returntype="void" output="false">
-		<cfargument name="event" required="true">
-		<cfscript>
-			//Grab missingTemplate From request collection, placed by ColdBox
-			var missingTemplate = event.getValue("missingTemplate");
-			
-		</cfscript>
-	</cffunction>
-
-</cfcomponent>
+}

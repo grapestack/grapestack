@@ -1,81 +1,69 @@
-# ************************************************************
-# Sequel Pro SQL dump
-# Version 3408
-#
-# http://www.sequelpro.com/
-# http://code.google.com/p/sequel-pro/
-#
-# Host: Localhost (MySQL 5.5.15)
-# Database: contentbox
-# Generation Time: 2012-03-08 02:37:22 +0000
-# ************************************************************
+/*
+Navicat MySQL Data Transfer
 
+Source Server         : blog.linkdrop.com_3306
+Source Server Version : 50161
+Source Host           : blog.linkdrop.com:3306
+Source Database       : contentbox
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+Target Server Type    : MYSQL
+Target Server Version : 50161
+File Encoding         : 65001
 
+Date: 2012-07-25 15:02:38
+*/
 
-# Dump of table cb_author
-# ------------------------------------------------------------
+SET FOREIGN_KEY_CHECKS=0;
 
+-- ----------------------------
+-- Table structure for `cb_author`
+-- ----------------------------
 DROP TABLE IF EXISTS `cb_author`;
-
 CREATE TABLE `cb_author` (
   `authorID` int(11) NOT NULL AUTO_INCREMENT,
-  `firstName` varchar(100) NOT NULL,
-  `lastName` varchar(100) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `username` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `isActive` bit(1) NOT NULL DEFAULT b'0',
   `lastLogin` datetime DEFAULT NULL,
+  `lastName` varchar(100) NOT NULL,
+  `firstName` varchar(100) NOT NULL,
   `createdDate` datetime NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `biography` longtext,
+  `username` varchar(100) NOT NULL,
+  `isActive` bit(1) NOT NULL DEFAULT b'0',
+  `email` varchar(255) NOT NULL,
   `FK_roleID` int(11) NOT NULL,
   PRIMARY KEY (`authorID`),
   UNIQUE KEY `username` (`username`),
   KEY `FK6847396B9724FA40` (`FK_roleID`),
   KEY `idx_active` (`isActive`),
   KEY `idx_email` (`email`),
-  KEY `idx_login` (`username`,`password`,`isActive`),
+  KEY `idx_login` (`password`,`username`,`isActive`),
   CONSTRAINT `FK6847396B9724FA40` FOREIGN KEY (`FK_roleID`) REFERENCES `cb_role` (`roleID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-LOCK TABLES `cb_author` WRITE;
-/*!40000 ALTER TABLE `cb_author` DISABLE KEYS */;
+-- ----------------------------
+-- Records of cb_author
+-- ----------------------------
+INSERT INTO `cb_author` VALUES ('1', '2012-07-25 17:01:12', 'GRAPE', 'Stack', '2012-07-25 00:11:35', '8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918', '', 'admin', '', 'webmaster@grapestack.com', '2');
 
-INSERT INTO `cb_author` (`authorID`, `firstName`, `lastName`, `email`, `username`, `password`, `isActive`, `lastLogin`, `createdDate`, `FK_roleID`)
-VALUES ('1', 'GRAPE', 'Stack', 'webmaster@grapestack.com', 'admin', '8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918', '1', '2012-02-08 16:14:51', '2012-02-03 14:13:38', '2');
-
-/*!40000 ALTER TABLE `cb_author` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table cb_authorPermissions
-# ------------------------------------------------------------
-
+-- ----------------------------
+-- Table structure for `cb_authorPermissions`
+-- ----------------------------
 DROP TABLE IF EXISTS `cb_authorPermissions`;
-
 CREATE TABLE `cb_authorPermissions` (
   `FK_authorID` int(11) NOT NULL,
   `FK_permissionID` int(11) NOT NULL,
   KEY `FKE167E219AA6AC0EA` (`FK_authorID`),
-  KEY `FKE167E21937C1A3F2` (`FK_permissionID`),
-  CONSTRAINT `FKE167E21937C1A3F2` FOREIGN KEY (`FK_permissionID`) REFERENCES `cb_permission` (`permissionID`),
-  CONSTRAINT `FKE167E219AA6AC0EA` FOREIGN KEY (`FK_authorID`) REFERENCES `cb_author` (`authorID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `FKE167E21937C1A3F2` (`FK_permissionID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+-- ----------------------------
+-- Records of cb_authorPermissions
+-- ----------------------------
 
-
-# Dump of table cb_category
-# ------------------------------------------------------------
-
+-- ----------------------------
+-- Table structure for `cb_category`
+-- ----------------------------
 DROP TABLE IF EXISTS `cb_category`;
-
 CREATE TABLE `cb_category` (
   `categoryID` int(11) NOT NULL AUTO_INCREMENT,
   `category` varchar(200) NOT NULL,
@@ -83,427 +71,395 @@ CREATE TABLE `cb_category` (
   PRIMARY KEY (`categoryID`),
   UNIQUE KEY `slug` (`slug`),
   KEY `idx_slug` (`slug`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
-LOCK TABLES `cb_category` WRITE;
-/*!40000 ALTER TABLE `cb_category` DISABLE KEYS */;
+-- ----------------------------
+-- Records of cb_category
+-- ----------------------------
+INSERT INTO `cb_category` VALUES ('1', 'News', 'news');
+INSERT INTO `cb_category` VALUES ('2', 'ColdFusion', 'coldfusion');
+INSERT INTO `cb_category` VALUES ('3', 'ColdBox', 'coldbox');
+INSERT INTO `cb_category` VALUES ('4', 'ContentBox', 'contentbox');
 
-INSERT INTO `cb_category` (`categoryID`, `category`, `slug`)
-VALUES
-	(1,'News','news'),
-	(2,'ColdFusion','coldfusion'),
-	(3,'ColdBox','coldbox'),
-	(4,'ContentBox','contentbox');
-
-/*!40000 ALTER TABLE `cb_category` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table cb_comment
-# ------------------------------------------------------------
-
+-- ----------------------------
+-- Table structure for `cb_comment`
+-- ----------------------------
 DROP TABLE IF EXISTS `cb_comment`;
-
 CREATE TABLE `cb_comment` (
   `commentID` int(11) NOT NULL AUTO_INCREMENT,
   `content` longtext NOT NULL,
   `author` varchar(100) NOT NULL,
-  `authorIP` varchar(100) NOT NULL,
   `authorEmail` varchar(255) NOT NULL,
+  `authorIP` varchar(100) NOT NULL,
   `authorURL` varchar(255) DEFAULT NULL,
   `createdDate` datetime NOT NULL,
   `isApproved` bit(1) NOT NULL DEFAULT b'0',
   `FK_contentID` int(11) NOT NULL,
   PRIMARY KEY (`commentID`),
+  KEY `FKFFCED27FFB9F8BAD` (`FK_contentID`),
+  KEY `FKFFCED27F89D637E8` (`FK_contentID`),
   KEY `FKFFCED27F91F58374` (`FK_contentID`),
   KEY `idx_approved` (`isApproved`),
   KEY `idx_contentComment` (`isApproved`,`FK_contentID`),
   KEY `idx_createdDate` (`createdDate`),
-  CONSTRAINT `FKFFCED27F91F58374` FOREIGN KEY (`FK_contentID`) REFERENCES `cb_content` (`contentID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `FKFFCED27F89D637E8` FOREIGN KEY (`FK_contentID`) REFERENCES `cb_content` (`contentID`),
+  CONSTRAINT `FKFFCED27F91F58374` FOREIGN KEY (`FK_contentID`) REFERENCES `cb_content` (`contentID`),
+  CONSTRAINT `FKFFCED27FFB9F8BAD` FOREIGN KEY (`FK_contentID`) REFERENCES `cb_content` (`contentID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
-LOCK TABLES `cb_comment` WRITE;
-/*!40000 ALTER TABLE `cb_comment` DISABLE KEYS */;
+-- ----------------------------
+-- Records of cb_comment
+-- ----------------------------
+INSERT INTO `cb_comment` VALUES ('1', 'What an amazing blog entry, congratulations!', 'Awesome Joe', 'awesomejoe@gocontentbox.com', '127.0.0.1', 'www.gocontentbox.com', '2012-07-25 00:11:36', '', '1');
+INSERT INTO `cb_comment` VALUES ('2', 'I am some bad words and bad comment not approved', 'Bad Joe', 'badjoe@gocontentbox.com', '127.0.0.1', 'www.gocontentbox.com', '2012-07-25 00:11:36', '', '1');
 
-INSERT INTO `cb_comment` (`commentID`, `content`, `author`, `authorIP`, `authorEmail`, `authorURL`, `createdDate`, `isApproved`, `FK_contentID`)
-VALUES
-	(1,'What an amazing blog entry, congratulations!','Awesome Joe','127.0.0.1','awesomejoe@gocontentbox.com','www.gocontentbox.com','2012-02-24 14:30:32',b'1',1),
-	(2,'I am some bad words and bad comment not approved','Bad Joe','127.0.0.1','badjoe@gocontentbox.com','www.gocontentbox.com','2012-02-24 14:30:32',b'1',1),
-	(3,'pageOverridepageOverridepageOverridepageOverride\r\n\r\npageOverridepageOverridepageOverridepageOverride\r\npageOverridepageOverridepageOverridepageOverride\r\npageOverridepageOverridepageOverridepageOverridepageOverridepageO\r\nverridepageOverridepageOverride','Luis majano','127.0.0.1','lmajano@ortussolutions.com','http://www.ortussolutions.com','2012-03-02 17:32:38',b'1',3),
-	(4,'Test','Luis majano','127.0.0.1','lmajano@ortussolutions.com','http://www.ortussolutions.com','2012-03-05 21:44:08',b'1',3);
-
-/*!40000 ALTER TABLE `cb_comment` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table cb_content
-# ------------------------------------------------------------
-
+-- ----------------------------
+-- Table structure for `cb_content`
+-- ----------------------------
 DROP TABLE IF EXISTS `cb_content`;
-
 CREATE TABLE `cb_content` (
   `contentID` int(11) NOT NULL AUTO_INCREMENT,
   `contentType` varchar(255) NOT NULL,
-  `title` varchar(200) NOT NULL,
-  `slug` varchar(200) NOT NULL,
-  `createdDate` datetime NOT NULL,
-  `publishedDate` datetime DEFAULT NULL,
   `isPublished` bit(1) NOT NULL DEFAULT b'1',
+  `cacheLayout` bit(1) NOT NULL DEFAULT b'1',
+  `cacheTimeout` int(11) DEFAULT '0',
+  `expireDate` datetime DEFAULT NULL,
+  `publishedDate` datetime DEFAULT NULL,
   `allowComments` bit(1) NOT NULL DEFAULT b'1',
+  `title` varchar(200) NOT NULL,
   `passwordProtection` varchar(100) DEFAULT NULL,
+  `cache` bit(1) NOT NULL DEFAULT b'1',
   `HTMLKeywords` varchar(160) DEFAULT NULL,
-  `HTMLDescription` varchar(160) DEFAULT NULL,
+  `createdDate` datetime NOT NULL,
   `hits` bigint(20) DEFAULT '0',
+  `cacheLastAccessTimeout` int(11) DEFAULT '0',
+  `HTMLDescription` varchar(160) DEFAULT NULL,
+  `slug` varchar(200) NOT NULL,
   `FK_parentID` int(11) DEFAULT NULL,
   `FK_authorID` int(11) DEFAULT NULL,
-  `cache` bit(1) NOT NULL DEFAULT b'1',
-  `cacheTimeout` int(11) DEFAULT '0',
-  `cacheLastAccessTimeout` int(11) DEFAULT '0',
-  `expireDate` datetime DEFAULT NULL,
   PRIMARY KEY (`contentID`),
   UNIQUE KEY `slug` (`slug`),
   KEY `FKFFE01899AA6AC0EA` (`FK_authorID`),
+  KEY `FKFFE01899D98634D2` (`FK_parentID`),
+  KEY `FKFFE0189967BCE10D` (`FK_parentID`),
   KEY `FKFFE018996FDC2C99` (`FK_parentID`),
   KEY `idx_slug` (`slug`),
   KEY `idx_discriminator` (`contentType`),
-  KEY `idx_publishedSlug` (`slug`,`isPublished`),
-  KEY `idx_published` (`contentType`,`isPublished`,`passwordProtection`),
-  KEY `idx_createdDate` (`createdDate`),
-  KEY `idx_search` (`title`,`isPublished`),
+  KEY `idx_cachelayout` (`cacheLayout`),
   KEY `idx_cachetimeout` (`cacheTimeout`),
   KEY `idx_cache` (`cache`),
+  KEY `idx_publishedSlug` (`isPublished`,`slug`),
+  KEY `idx_published` (`isPublished`,`contentType`,`passwordProtection`),
   KEY `idx_cachelastaccesstimeout` (`cacheLastAccessTimeout`),
-  KEY `idx_expireDate` (`expireDate`),
+  KEY `idx_createdDate` (`createdDate`),
+  KEY `idx_search` (`isPublished`,`title`),
+  CONSTRAINT `FKFFE0189967BCE10D` FOREIGN KEY (`FK_parentID`) REFERENCES `cb_content` (`contentID`),
   CONSTRAINT `FKFFE018996FDC2C99` FOREIGN KEY (`FK_parentID`) REFERENCES `cb_content` (`contentID`),
-  CONSTRAINT `FKFFE01899AA6AC0EA` FOREIGN KEY (`FK_authorID`) REFERENCES `cb_author` (`authorID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `FKFFE01899AA6AC0EA` FOREIGN KEY (`FK_authorID`) REFERENCES `cb_author` (`authorID`),
+  CONSTRAINT `FKFFE01899D98634D2` FOREIGN KEY (`FK_parentID`) REFERENCES `cb_content` (`contentID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
-LOCK TABLES `cb_content` WRITE;
-/*!40000 ALTER TABLE `cb_content` DISABLE KEYS */;
+-- ----------------------------
+-- Records of cb_content
+-- ----------------------------
+INSERT INTO `cb_content` VALUES ('1', 'Entry', '', '', '0', null, '2012-07-25 00:11:36', '', 'My first entry', '', '', 'cool,first entry, contentbox', '2012-07-25 00:11:36', '0', '0', 'The most amazing ContentBox blog entry in the world', 'my-first-entry', null, null);
+INSERT INTO `cb_content` VALUES ('2', 'Page', '', '', '0', null, '2012-07-25 00:11:36', '', 'About', '', '', 'about, contentbox,coldfusion,coldbox', '2012-07-25 00:11:36', '0', '0', 'The most amazing ContentBox page in the world', 'about', null, null);
 
-INSERT INTO `cb_content` (`contentID`, `contentType`, `title`, `slug`, `createdDate`, `publishedDate`, `isPublished`, `allowComments`, `passwordProtection`, `HTMLKeywords`, `HTMLDescription`, `hits`, `FK_parentID`, `FK_authorID`, `cache`, `cacheTimeout`, `cacheLastAccessTimeout`, `expireDate`)
-VALUES
-	(1,'Entry','My first entry','my-first-entry','2012-02-24 14:30:32','2012-02-23 14:30:00',b'1',b'1','','cool,first entry, contentbox','The most amazing ContentBox blog entry in the world',28,NULL,NULL,b'1',0,0,NULL),
-	(2,'Page','About','about','2012-02-24 14:30:32','2012-02-17 14:30:00',b'1',b'0','','about, contentbox,coldfusion,coldbox','The most amazing ContentBox page in the world',38,NULL,NULL,b'0',30,10,NULL),
-	(3,'Page','Products','products','2012-02-24 14:34:32','2012-02-24 14:33:00',b'1',b'1','','','',140,NULL,NULL,b'1',0,0,NULL),
-	(4,'Page','ColdBox','coldbox','2012-02-24 14:39:17','2012-02-24 14:34:00',b'1',b'0','','','',89,3,NULL,b'1',0,0,NULL),
-	(5,'Entry','Wow new release is out','wow-new-release-is-out','2012-03-02 16:35:28','2012-03-02 16:35:00',b'1',b'1','','','',20,NULL,NULL,b'1',0,0,NULL),
-	(6,'Page','Test Page','test-page','2012-03-06 23:47:08','2012-03-06 23:46:00',b'1',b'0','','','',1,NULL,NULL,b'1',0,0,NULL);
-
-/*!40000 ALTER TABLE `cb_content` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table cb_contentCategories
-# ------------------------------------------------------------
-
+-- ----------------------------
+-- Table structure for `cb_contentCategories`
+-- ----------------------------
 DROP TABLE IF EXISTS `cb_contentCategories`;
-
 CREATE TABLE `cb_contentCategories` (
   `FK_contentID` int(11) NOT NULL,
   `FK_categoryID` int(11) NOT NULL,
   KEY `FKD96A0F95F10ECD0` (`FK_categoryID`),
-  KEY `FKD96A0F9591F58374` (`FK_contentID`),
-  CONSTRAINT `FKD96A0F9591F58374` FOREIGN KEY (`FK_contentID`) REFERENCES `cb_content` (`contentID`),
-  CONSTRAINT `FKD96A0F95F10ECD0` FOREIGN KEY (`FK_categoryID`) REFERENCES `cb_category` (`categoryID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `FKD96A0F95FB9F8BAD` (`FK_contentID`),
+  KEY `FKD96A0F9589D637E8` (`FK_contentID`),
+  KEY `FKD96A0F9591F58374` (`FK_contentID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-LOCK TABLES `cb_contentCategories` WRITE;
-/*!40000 ALTER TABLE `cb_contentCategories` DISABLE KEYS */;
+-- ----------------------------
+-- Records of cb_contentCategories
+-- ----------------------------
 
-INSERT INTO `cb_contentCategories` (`FK_contentID`, `FK_categoryID`)
-VALUES
-	(1,2),
-	(1,4),
-	(5,1);
-
-/*!40000 ALTER TABLE `cb_contentCategories` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table cb_contentversion
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `cb_contentversion`;
-
-CREATE TABLE `cb_contentversion` (
+-- ----------------------------
+-- Table structure for `cb_contentVersion`
+-- ----------------------------
+DROP TABLE IF EXISTS `cb_contentVersion`;
+CREATE TABLE `cb_contentVersion` (
   `contentVersionID` int(11) NOT NULL AUTO_INCREMENT,
   `content` longtext NOT NULL,
-  `changelog` longtext,
-  `version` int(11) NOT NULL,
-  `createdDate` datetime NOT NULL,
   `isActive` bit(1) NOT NULL DEFAULT b'0',
+  `changelog` longtext,
+  `createdDate` datetime NOT NULL,
+  `version` int(11) NOT NULL,
   `FK_authorID` int(11) NOT NULL,
   `FK_contentID` int(11) NOT NULL,
   PRIMARY KEY (`contentVersionID`),
   KEY `FKE166DFFAA6AC0EA` (`FK_authorID`),
+  KEY `FKE166DFFFB9F8BAD` (`FK_contentID`),
+  KEY `FKE166DFF89D637E8` (`FK_contentID`),
   KEY `FKE166DFF91F58374` (`FK_contentID`),
   KEY `idx_active` (`isActive`),
   KEY `idx_contentVersions` (`isActive`,`FK_contentID`),
   KEY `idx_version` (`version`),
   KEY `idx_createdDate` (`createdDate`),
+  CONSTRAINT `FKE166DFF89D637E8` FOREIGN KEY (`FK_contentID`) REFERENCES `cb_content` (`contentID`),
   CONSTRAINT `FKE166DFF91F58374` FOREIGN KEY (`FK_contentID`) REFERENCES `cb_content` (`contentID`),
-  CONSTRAINT `FKE166DFFAA6AC0EA` FOREIGN KEY (`FK_authorID`) REFERENCES `cb_author` (`authorID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `FKE166DFFAA6AC0EA` FOREIGN KEY (`FK_authorID`) REFERENCES `cb_author` (`authorID`),
+  CONSTRAINT `FKE166DFFFB9F8BAD` FOREIGN KEY (`FK_contentID`) REFERENCES `cb_content` (`contentID`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
-LOCK TABLES `cb_contentversion` WRITE;
-/*!40000 ALTER TABLE `cb_contentversion` DISABLE KEYS */;
+-- ----------------------------
+-- Records of cb_contentVersion
+-- ----------------------------
+INSERT INTO `cb_contentVersion` VALUES ('1', 'Hey everybody, this is my first blog entry made from ContentBox.  Isn\'t this amazing!\'', '', 'Initial creation', '2012-07-25 00:11:36', '1', '1', '1');
+INSERT INTO `cb_contentVersion` VALUES ('2', '<p>Hey welcome to my about page for ContentBox, isn\'t this great!</p><p>{{{CustomHTML slug=\'contentbox\'}}}</p>', '', 'First creation', '2012-07-25 00:11:36', '1', '1', '2');
+INSERT INTO `cb_contentVersion` VALUES ('3', '<p>\n	Hey everybody, this is my first blog entry made from ContentBox. Isn\'t this amazing!\'</p>\n', '', 'Quick save', '2012-07-25 17:01:38', '2', '1', '1');
+INSERT INTO `cb_contentVersion` VALUES ('4', '<p>\n	Hey everybody, this is my first blog entry made from ContentBox. Isn\'t this amazing!</p>\n', '', 'Quick save', '2012-07-25 17:01:42', '2', '1', '1');
+INSERT INTO `cb_contentVersion` VALUES ('5', '<p>\r\n	Hey everybody, this is my first blog entry made from ContentBox. Isn\'t this amazing!</p>\r\n', '', '', '2012-07-25 17:01:49', '2', '1', '1');
+INSERT INTO `cb_contentVersion` VALUES ('6', '<p>\n	Hey everybody, this is my first blog entry made from ContentBox. Isn\'t this amazing!</p>\n', '', 'Quick save', '2012-07-25 17:02:10', '2', '1', '1');
+INSERT INTO `cb_contentVersion` VALUES ('7', '<p>\n	Hey everybody, this is my first blog entry made from ContentBox. Isn\'t this amazing!</p>\n', '', 'Quick save', '2012-07-25 17:02:16', '2', '1', '1');
+INSERT INTO `cb_contentVersion` VALUES ('8', '<p>\n	Hey everybody, this is my first blog entry made from ContentBox. Isn\'t this amazing!</p>\n', '', 'Quick save', '2012-07-25 17:02:19', '2', '1', '1');
+INSERT INTO `cb_contentVersion` VALUES ('9', '<p>\r\n	Hey everybody, this is my first blog entry made from ContentBox. Isn\'t this amazing!</p>\r\n', '', '', '2012-07-25 17:02:35', '2', '1', '1');
 
-INSERT INTO `cb_contentversion` (`contentVersionID`, `content`, `changelog`, `version`, `createdDate`, `isActive`, `FK_authorID`, `FK_contentID`)
-VALUES
-	(1,'Hey everybody, this is my first blog entry made from ContentBox.  Isn\'t this amazing!\'','Initial creation',1,'2012-02-24 14:30:32',b'0',1,1),
-	(2,'<p>Hey welcome to my about page for ContentBox, isn\'t this great!</p><p>{{{CustomHTML slug=\'contentbox\'}}}</p>','First creation',1,'2012-02-24 14:30:32',b'0',1,2),
-	(3,'<p>\n	This is &nbsp;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\n<p>\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\n<p>\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\n','Quick save',1,'2012-02-24 14:34:32',b'0',1,3),
-	(4,'<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n','',2,'2012-02-24 14:34:45',b'0',1,3),
-	(5,'<p>\r\n	{{{MessageBox type=&#39;error&#39; message=&#39;Hello You have an error&#39;}}}</p>\r\n<p>\r\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\r\n<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">Nam</a> sed est. Nam a risus et est iaculis <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">adipiscing</a>. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n<p>\r\n	<img alt=\"\" src=\"modules/contentbox/content/ContentBox_125.gif\" style=\"width: 124px; height: 118px; \" />Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n','',1,'2012-02-24 14:39:17',b'0',1,4),
-	(6,'<p>\r\n	{{{MessageBox type=&#39;error&#39; message=&#39;Hello You have an error&#39;}}}</p>\r\n<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">Nam</a> sed est. Nam a risus et est iaculis <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">adipiscing</a>. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n<p>\r\n	<img alt=\"\" src=\"modules/contentbox/content/ContentBox_125.gif\" style=\"width: 124px; height: 118px; \" />Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n','',2,'2012-02-24 14:39:35',b'0',1,4),
-	(7,'<p>\r\n	{{{MessageBox type=&#39;error&#39; message=&#39;Hello You have an error&#39;}}}</p>\r\n<p>\r\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\r\n<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">Nam</a> sed est. Nam a risus et est iaculis <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">adipiscing</a>. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n<p>\r\n	<img alt=\"\" src=\"modules/contentbox/content/ContentBox_125.gif\" style=\"width: 124px; height: 118px; \" />Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n','Reverting to version 1',3,'2012-02-24 14:40:07',b'0',1,4),
-	(8,'<p>\r\n	Hey welcome to my about page for ContentBox, isn&#39;t this great!</p>\r\n<p>\r\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\r\n','',2,'2012-02-27 18:06:35',b'0',1,2),
-	(9,'<p>\n	Hey welcome to my about page for ContentBox, isn&#39;t this great!</p>\n<p>\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\n','Quick save',3,'2012-02-27 20:41:51',b'0',1,2),
-	(10,'<p>\r\n	Hey welcome to my about page for ContentBox, isn&#39;t this great!</p>\r\n<p>\r\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\r\n','',4,'2012-02-27 20:44:23',b'0',1,2),
-	(11,'<p>\r\n	Hey welcome to my about page for ContentBox, isn&#39;t this great!</p>\r\n<p>\r\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\r\n','',5,'2012-02-27 21:07:10',b'0',1,2),
-	(12,'<p>\r\n	Hey everybody, this is my first blog entry made from ContentBox. Isn&#39;t this amazing!&#39;</p>\r\n','',2,'2012-02-27 21:38:33',b'0',1,1),
-	(13,'<p>\r\n	Hey everybody, this is my first blog entry made from ContentBox. Isn&#39;t this amazing!&#39;</p>\r\n','',3,'2012-02-27 21:39:34',b'0',1,1),
-	(14,'<p>\r\n	Hey everybody, this is my first blog entry made from ContentBox. Isn&#39;t this amazing!&#39;</p>\r\n','',4,'2012-02-27 21:40:44',b'0',1,1),
-	(15,'<p>\r\n	Hey everybody, this is my first blog entry made from ContentBox. Isn&#39;t this amazing!&#39;</p>\r\n','',5,'2012-02-27 21:52:45',b'0',1,1),
-	(16,'<p>\r\n	Hey everybody, this is my first blog entry made from ContentBox. Isn&#39;t this amazing!&#39;</p>\r\n','',6,'2012-02-27 21:52:53',b'0',1,1),
-	(17,'<p>\r\n	Hey everybody, this is my first blog entry made from ContentBox. Isn&#39;t this amazing!&#39;</p>\r\n','',7,'2012-02-27 21:53:04',b'0',1,1),
-	(18,'<p>\r\n	Hey welcome to my about page for ContentBox, isn&#39;t this great!</p>\r\n<p>\r\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\r\n','',6,'2012-02-27 21:53:26',b'0',1,2),
-	(19,'<p>\r\n	Hey welcome to my about page for ContentBox, isn&#39;t this great!</p>\r\n<p>\r\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\r\n','',7,'2012-02-27 21:53:35',b'0',1,2),
-	(20,'<p>\r\n	Hey everybody, this is my first blog entry made from ContentBox. Isn&#39;t this amazing!&#39;</p>\r\n','',8,'2012-02-29 21:16:32',b'0',1,1),
-	(21,'<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n','',1,'2012-03-02 16:35:28',b'0',1,5),
-	(22,'<p>\r\n	Hey everybody, this is my first blog entry made from ContentBox. Isn&#39;t this amazing!&#39;</p>\r\n','',9,'2012-03-02 16:35:49',b'1',1,1),
-	(23,'<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n','',2,'2012-03-02 16:35:57',b'0',1,5),
-	(24,'<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n','',3,'2012-03-02 16:46:00',b'1',1,5),
-	(25,'<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n','',3,'2012-03-02 17:15:10',b'0',1,3),
-	(26,'<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<h2>\r\n	Hello Man</h2>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<h3>\r\n	Hello</h3>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n','',4,'2012-03-05 20:43:40',b'1',1,3),
-	(27,'<p>\r\n	Hey welcome to my about page for ContentBox, isn&#39;t this great!</p>\r\n<p>\r\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\r\n','',8,'2012-03-05 21:39:53',b'1',1,2),
-	(28,'<p>\r\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\r\n<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">Nam</a> sed est. Nam a risus et est iaculis <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">adipiscing</a>. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n','',4,'2012-03-05 21:55:09',b'0',1,4),
-	(29,'<p>\r\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\r\n<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">Nam</a> sed est. Nam a risus et est iaculis <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">adipiscing</a>. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n','',5,'2012-03-05 22:03:05',b'0',1,4),
-	(30,'<p>\r\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\r\n<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">Nam</a> sed est. Nam a risus et est iaculis <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">adipiscing</a>. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n','',6,'2012-03-05 22:03:40',b'0',1,4),
-	(31,'<p>\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\n<p>\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">Nam</a> sed est. Nam a risus et est iaculis <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">adipiscing</a>. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\n<p>\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\n<p>\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\n<p>\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\n<p>\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\n<p>\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\n<p>\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\n','Quick save',7,'2012-03-05 22:04:48',b'0',1,4),
-	(32,'<p>\r\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\r\n<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">Nam</a> sed est. Nam a risus et est iaculis <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">adipiscing</a>. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n<p>\r\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\r\n<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n','',8,'2012-03-05 22:05:00',b'0',1,4),
-	(33,'<p>\r\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\r\n<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">Nam</a> sed est. Nam a risus et est iaculis <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">adipiscing</a>. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n<p>\r\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\r\n<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n','',9,'2012-03-05 22:05:07',b'0',1,4),
-	(34,'<p>\r\n	{{{CustomHTML slug=&#39;contentbox&#39;}}}</p>\r\n<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">Nam</a> sed est. Nam a risus et est iaculis <a href=\"entry:[/my-first-entry]\" title=\"My first entry\">adipiscing</a>. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>\r\n','',10,'2012-03-05 22:08:06',b'1',1,4),
-	(35,'<p>\r\n	Markdown Plugin For ColdBox<br />\r\n	===========================<br />\r\n	<br />\r\n	**ColdBox Version: 3.0.0**<br />\r\n	<br />\r\n	This plugin uses the markdownJ library found here:<br />\r\n	<br />\r\n	* [MarkdownJ](http://code.google.com/p/markdownj/) is the pure Java port of Markdown (a text-to-html conversion tool written by John Gruber.)<br />\r\n	<br />\r\n	## What is Markdown? ##<br />\r\n	<br />\r\n	Markdown is a text-to-HTML conversion tool for web writers. Markdown allows you to write using an easy-to-read, easy-to-write plain text format, then&nbsp; convert it to structurally valid XHTML (or HTML).</p>\r\n','',1,'2012-03-06 23:47:08',b'1',1,6);
-
-/*!40000 ALTER TABLE `cb_contentversion` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table cb_customfield
-# ------------------------------------------------------------
-
+-- ----------------------------
+-- Table structure for `cb_customfield`
+-- ----------------------------
 DROP TABLE IF EXISTS `cb_customfield`;
-
 CREATE TABLE `cb_customfield` (
   `customFieldID` int(11) NOT NULL AUTO_INCREMENT,
-  `key` varchar(255) NOT NULL,
   `value` longtext NOT NULL,
+  `key` varchar(255) NOT NULL,
   `FK_contentID` int(11) DEFAULT NULL,
   PRIMARY KEY (`customFieldID`),
+  KEY `FK18446849FB9F8BAD` (`FK_contentID`),
+  KEY `FK1844684989D637E8` (`FK_contentID`),
   KEY `FK1844684991F58374` (`FK_contentID`),
   KEY `idx_contentCustomFields` (`FK_contentID`),
-  CONSTRAINT `FK1844684991F58374` FOREIGN KEY (`FK_contentID`) REFERENCES `cb_content` (`contentID`)
+  CONSTRAINT `FK1844684989D637E8` FOREIGN KEY (`FK_contentID`) REFERENCES `cb_content` (`contentID`),
+  CONSTRAINT `FK1844684991F58374` FOREIGN KEY (`FK_contentID`) REFERENCES `cb_content` (`contentID`),
+  CONSTRAINT `FK18446849FB9F8BAD` FOREIGN KEY (`FK_contentID`) REFERENCES `cb_content` (`contentID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- ----------------------------
+-- Records of cb_customfield
+-- ----------------------------
 
-
-# Dump of table cb_customhtml
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `cb_customhtml`;
-
-CREATE TABLE `cb_customhtml` (
+-- ----------------------------
+-- Table structure for `cb_customHTML`
+-- ----------------------------
+DROP TABLE IF EXISTS `cb_customHTML`;
+CREATE TABLE `cb_customHTML` (
   `contentID` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(200) NOT NULL,
-  `slug` varchar(200) NOT NULL,
-  `description` longtext,
   `content` longtext NOT NULL,
+  `title` varchar(200) NOT NULL,
+  `cache` bit(1) NOT NULL DEFAULT b'1',
+  `description` longtext,
+  `cacheLastAccessTimeout` int(11) DEFAULT '0',
+  `cacheTimeout` int(11) DEFAULT '0',
+  `slug` varchar(200) NOT NULL,
   `createdDate` datetime NOT NULL,
   PRIMARY KEY (`contentID`),
   UNIQUE KEY `slug` (`slug`),
-  KEY `idx_customHTML_slug` (`slug`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `idx_cachetimeout` (`cacheTimeout`),
+  KEY `idx_cache` (`cache`),
+  KEY `idx_customHTML_slug` (`slug`),
+  KEY `idx_cachelastaccesstimeout` (`cacheLastAccessTimeout`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-LOCK TABLES `cb_customhtml` WRITE;
-/*!40000 ALTER TABLE `cb_customhtml` DISABLE KEYS */;
+-- ----------------------------
+-- Records of cb_customHTML
+-- ----------------------------
+INSERT INTO `cb_customHTML` VALUES ('1', '<p style=\"text-align: center;\">\r\n	<a href=\"http://gocontentbox.org\"><img alt=\"\" src=\"/modules/contentbox/content/ContentBox_125.gif\" style=\"width: 124px; height: 118px;\" /></a></p>\r\n<p style=\"text-align: center;\">\r\n	Created by <a href=\"http://www.ortussolutions.com\">Ortus Solutions, Corp</a> and powered by <a href=\"http://coldbox.org\">ColdBox Platform</a>.</p>', 'ContactInfo', '', 'Our contact information', '0', '0', 'contentbox', '2012-07-25 00:11:36');
 
-INSERT INTO `cb_customhtml` (`contentID`, `title`, `slug`, `description`, `content`, `createdDate`)
-VALUES
-	(1,'ContactInfo','contentbox','Our contact information','<p style=\"text-align: center;\">\n	<a href=\"http://gocontentbox.org\"><img alt=\"\" src=\"/modules/contentbox/content/ContentBox_125.gif\" style=\"width: 124px; height: 118px;\" /></a></p>\n<p style=\"text-align: center;\">\n	Created by <a href=\"http://www.ortussolutions.com\">Ortus Solutions, Corp</a> and powered by <a href=\"http://coldbox.org\">ColdBox Platform</a>.</p>','2012-02-24 14:30:32');
-
-/*!40000 ALTER TABLE `cb_customhtml` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table cb_entry
-# ------------------------------------------------------------
-
+-- ----------------------------
+-- Table structure for `cb_entry`
+-- ----------------------------
 DROP TABLE IF EXISTS `cb_entry`;
-
 CREATE TABLE `cb_entry` (
   `contentID` int(11) NOT NULL,
+  `isPublished` bit(1) NOT NULL DEFAULT b'1',
+  `cacheLayout` bit(1) NOT NULL DEFAULT b'1',
+  `cacheTimeout` int(11) DEFAULT '0',
+  `expireDate` datetime DEFAULT NULL,
+  `publishedDate` datetime DEFAULT NULL,
+  `contentType` varchar(255) DEFAULT NULL,
+  `allowComments` bit(1) NOT NULL DEFAULT b'1',
+  `title` varchar(200) NOT NULL,
+  `passwordProtection` varchar(100) DEFAULT NULL,
+  `cache` bit(1) NOT NULL DEFAULT b'1',
   `excerpt` longtext,
+  `HTMLKeywords` varchar(160) DEFAULT NULL,
+  `createdDate` datetime NOT NULL,
+  `hits` bigint(20) DEFAULT '0',
+  `cacheLastAccessTimeout` int(11) DEFAULT '0',
+  `HTMLDescription` varchar(160) DEFAULT NULL,
+  `slug` varchar(200) NOT NULL,
+  `FK_parentID` int(11) DEFAULT NULL,
   PRIMARY KEY (`contentID`),
+  UNIQUE KEY `slug` (`slug`),
   KEY `FK141674927FFF6A7` (`contentID`),
+  KEY `FK141674926FDC2C99` (`FK_parentID`),
+  KEY `idx_slug` (`slug`),
+  KEY `idx_discriminator` (`contentType`),
+  KEY `idx_cachelayout` (`cacheLayout`),
+  KEY `idx_cachetimeout` (`cacheTimeout`),
+  KEY `idx_cache` (`cache`),
+  KEY `idx_publishedSlug` (`isPublished`,`slug`),
+  KEY `idx_published` (`isPublished`,`contentType`,`passwordProtection`),
+  KEY `idx_cachelastaccesstimeout` (`cacheLastAccessTimeout`),
+  KEY `idx_createdDate` (`createdDate`),
+  KEY `idx_search` (`isPublished`,`title`),
+  CONSTRAINT `FK141674926FDC2C99` FOREIGN KEY (`FK_parentID`) REFERENCES `cb_content` (`contentID`),
   CONSTRAINT `FK141674927FFF6A7` FOREIGN KEY (`contentID`) REFERENCES `cb_content` (`contentID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `cb_entry` WRITE;
-/*!40000 ALTER TABLE `cb_entry` DISABLE KEYS */;
+-- ----------------------------
+-- Records of cb_entry
+-- ----------------------------
+INSERT INTO `cb_entry` VALUES ('1', '', '', '0', null, '2012-07-25 00:11:36', null, '', 'My first entry', '', '', '', 'cool,first entry, contentbox', '2012-07-25 00:11:36', '0', '0', 'The most amazing ContentBox blog entry in the world', 'my-first-entry', null);
 
-INSERT INTO `cb_entry` (`contentID`, `excerpt`)
-VALUES
-	(1,''),
-	(5,'<p>\r\n	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n<p>\r\n	Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</p>\r\n');
-
-/*!40000 ALTER TABLE `cb_entry` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table cb_module
-# ------------------------------------------------------------
-
+-- ----------------------------
+-- Table structure for `cb_module`
+-- ----------------------------
 DROP TABLE IF EXISTS `cb_module`;
-
 CREATE TABLE `cb_module` (
   `moduleID` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `version` varchar(255) DEFAULT NULL,
-  `entryPoint` varchar(255) DEFAULT NULL,
   `author` varchar(255) DEFAULT NULL,
-  `webURL` longtext,
-  `forgeBoxSlug` varchar(255) DEFAULT NULL,
-  `description` longtext,
+  `title` varchar(255) DEFAULT NULL,
   `isActive` bit(1) NOT NULL DEFAULT b'0',
+  `webURL` longtext,
+  `description` longtext,
+  `name` varchar(255) NOT NULL,
+  `entryPoint` varchar(255) DEFAULT NULL,
+  `forgeBoxSlug` varchar(255) DEFAULT NULL,
+  `version` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`moduleID`),
   KEY `idx_active` (`isActive`),
   KEY `idx_entryPoint` (`entryPoint`),
   KEY `idx_moduleName` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-LOCK TABLES `cb_module` WRITE;
-/*!40000 ALTER TABLE `cb_module` DISABLE KEYS */;
+-- ----------------------------
+-- Records of cb_module
+-- ----------------------------
+INSERT INTO `cb_module` VALUES ('1', 'Ortus Solutions, Corp', 'HelloContentBox', '', 'http://www.ortussolutions.com', 'This is an awesome hello world module', 'Hello', 'HelloContentBox', '', '1.0');
 
-INSERT INTO `cb_module` (`moduleID`, `name`, `title`, `version`, `entryPoint`, `author`, `webURL`, `forgeBoxSlug`, `description`, `isActive`)
-VALUES
-	(1,'CommentMarkdown','CommentMarkdown','1.0','CommentMarkdown','Ortus Solutions','http://www.ortussolutions.com','','Translates comments from markdown text',b'0'),
-	(3,'Hello','Hello','1.0','Hello','Luis Majano','http://','','hello',b'1');
-
-/*!40000 ALTER TABLE `cb_module` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table cb_page
-# ------------------------------------------------------------
-
+-- ----------------------------
+-- Table structure for `cb_page`
+-- ----------------------------
 DROP TABLE IF EXISTS `cb_page`;
-
 CREATE TABLE `cb_page` (
   `contentID` int(11) NOT NULL,
-  `layout` varchar(200) DEFAULT NULL,
-  `order` int(11) DEFAULT '0',
+  `isPublished` bit(1) NOT NULL DEFAULT b'1',
   `showInMenu` bit(1) NOT NULL DEFAULT b'1',
+  `cacheLayout` bit(1) NOT NULL DEFAULT b'1',
+  `cacheTimeout` int(11) DEFAULT '0',
+  `expireDate` datetime DEFAULT NULL,
+  `publishedDate` datetime DEFAULT NULL,
+  `contentType` varchar(255) DEFAULT NULL,
+  `allowComments` bit(1) NOT NULL DEFAULT b'1',
+  `title` varchar(200) NOT NULL,
+  `order` int(11) DEFAULT '0',
+  `layout` varchar(200) DEFAULT NULL,
+  `passwordProtection` varchar(100) DEFAULT NULL,
+  `cache` bit(1) NOT NULL DEFAULT b'1',
+  `HTMLKeywords` varchar(160) DEFAULT NULL,
+  `createdDate` datetime NOT NULL,
+  `hits` bigint(20) DEFAULT '0',
+  `cacheLastAccessTimeout` int(11) DEFAULT '0',
+  `HTMLDescription` varchar(160) DEFAULT NULL,
+  `slug` varchar(200) NOT NULL,
+  `FK_parentID` int(11) DEFAULT NULL,
   PRIMARY KEY (`contentID`),
+  UNIQUE KEY `slug` (`slug`),
   KEY `FK21B2F26F9636A2E2` (`contentID`),
+  KEY `FK21B2F26F6FDC2C99` (`FK_parentID`),
+  KEY `idx_slug` (`slug`),
+  KEY `idx_discriminator` (`contentType`),
+  KEY `idx_cachelayout` (`cacheLayout`),
+  KEY `idx_cachetimeout` (`cacheTimeout`),
+  KEY `idx_cache` (`cache`),
   KEY `idx_showInMenu` (`showInMenu`),
+  KEY `idx_publishedSlug` (`isPublished`,`slug`),
+  KEY `idx_published` (`isPublished`,`contentType`,`passwordProtection`),
+  KEY `idx_cachelastaccesstimeout` (`cacheLastAccessTimeout`),
+  KEY `idx_createdDate` (`createdDate`),
+  KEY `idx_search` (`isPublished`,`title`),
+  CONSTRAINT `FK21B2F26F6FDC2C99` FOREIGN KEY (`FK_parentID`) REFERENCES `cb_content` (`contentID`),
   CONSTRAINT `FK21B2F26F9636A2E2` FOREIGN KEY (`contentID`) REFERENCES `cb_content` (`contentID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `cb_page` WRITE;
-/*!40000 ALTER TABLE `cb_page` DISABLE KEYS */;
+-- ----------------------------
+-- Records of cb_page
+-- ----------------------------
+INSERT INTO `cb_page` VALUES ('2', '', '', '', '0', null, '2012-07-25 00:11:36', null, '', 'About', '0', 'pages', '', '', 'about, contentbox,coldfusion,coldbox', '2012-07-25 00:11:36', '0', '0', 'The most amazing ContentBox page in the world', 'about', null);
 
-INSERT INTO `cb_page` (`contentID`, `layout`, `order`, `showInMenu`)
-VALUES
-	(2,'pages',1,b'1'),
-	(3,'pages',2,b'1'),
-	(4,'pages',1,b'1'),
-	(6,'pages',0,b'1');
-
-/*!40000 ALTER TABLE `cb_page` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table cb_permission
-# ------------------------------------------------------------
-
+-- ----------------------------
+-- Table structure for `cb_permission`
+-- ----------------------------
 DROP TABLE IF EXISTS `cb_permission`;
-
 CREATE TABLE `cb_permission` (
   `permissionID` int(11) NOT NULL AUTO_INCREMENT,
-  `permission` varchar(255) NOT NULL,
   `description` longtext,
+  `permission` varchar(255) NOT NULL,
   PRIMARY KEY (`permissionID`),
   UNIQUE KEY `permission` (`permission`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
-LOCK TABLES `cb_permission` WRITE;
-/*!40000 ALTER TABLE `cb_permission` DISABLE KEYS */;
+-- ----------------------------
+-- Records of cb_permission
+-- ----------------------------
+INSERT INTO `cb_permission` VALUES ('1', 'Ability to manage authors, default is view only', 'AUTHOR_ADMIN');
+INSERT INTO `cb_permission` VALUES ('2', 'Ability to manage blog entries, default is view only', 'ENTRIES_ADMIN');
+INSERT INTO `cb_permission` VALUES ('3', 'Access to the ContentBox System tools', 'SYSTEM_TAB');
+INSERT INTO `cb_permission` VALUES ('4', 'Ability to rollback content versions', 'VERSIONS_ROLLBACK');
+INSERT INTO `cb_permission` VALUES ('5', 'Ability to view and apply ContentBox updates', 'SYSTEM_UPDATES');
+INSERT INTO `cb_permission` VALUES ('6', 'Ability to reload modules', 'RELOAD_MODULES');
+INSERT INTO `cb_permission` VALUES ('7', 'Access to the enter the ContentBox administrator console', 'CONTENTBOX_ADMIN');
+INSERT INTO `cb_permission` VALUES ('8', 'Ability to manage the system\'s media manager', 'MEDIAMANAGER_ADMIN');
+INSERT INTO `cb_permission` VALUES ('9', 'Access to the ContentBox raw geek settings panel', 'SYSTEM_RAW_SETTINGS');
+INSERT INTO `cb_permission` VALUES ('10', 'Ability to manage the system\'s email templates', 'EMAIL_TEMPLATE_ADMIN');
+INSERT INTO `cb_permission` VALUES ('11', 'Ability to manage custom HTML, default is view only', 'CUSTOMHTML_ADMIN');
+INSERT INTO `cb_permission` VALUES ('12', 'Ability to manage blog entries but not publish entries', 'ENTRIES_EDITOR');
+INSERT INTO `cb_permission` VALUES ('13', 'Ability to manage ContentBox Modules', 'MODULES_ADMIN');
+INSERT INTO `cb_permission` VALUES ('14', 'Ability to manage content pages, default is view only', 'PAGES_ADMIN');
+INSERT INTO `cb_permission` VALUES ('15', 'Ability to delete past content versions', 'VERSIONS_DELETE');
+INSERT INTO `cb_permission` VALUES ('16', 'Ability to manage comments, default is view only', 'COMMENTS_ADMIN');
+INSERT INTO `cb_permission` VALUES ('17', 'Ability to manage the system\'s global HTML content used on layouts', 'GLOBALHTML_ADMIN');
+INSERT INTO `cb_permission` VALUES ('18', 'Ability to manage widgets, default is view only', 'WIDGET_ADMIN');
+INSERT INTO `cb_permission` VALUES ('19', 'Ability to manage content pages but not publish pages', 'PAGES_EDITOR');
+INSERT INTO `cb_permission` VALUES ('20', 'Ability to manage layouts, default is view only', 'LAYOUT_ADMIN');
+INSERT INTO `cb_permission` VALUES ('21', 'Ability to manage the system\'s security rules, default is view only', 'SECURITYRULES_ADMIN');
+INSERT INTO `cb_permission` VALUES ('22', 'Ability to manage permissions, default is view only', 'PERMISSIONS_ADMIN');
+INSERT INTO `cb_permission` VALUES ('23', 'Ability to manage roles, default is view only', 'ROLES_ADMIN');
+INSERT INTO `cb_permission` VALUES ('24', 'Ability to manage categories, default is view only', 'CATEGORIES_ADMIN');
+INSERT INTO `cb_permission` VALUES ('25', 'Ability to import data into ContentBox', 'TOOLS_IMPORT');
+INSERT INTO `cb_permission` VALUES ('26', 'Ability to update global configuration data', 'SYSTEM_SAVE_CONFIGURATION');
 
-INSERT INTO `cb_permission` (`permissionID`, `permission`, `description`)
-VALUES
-	(1,'PAGES_ADMIN','Ability to manage content pages, default is view only'),
-	(2,'LAYOUT_ADMIN','Ability to manage layouts, default is view only'),
-	(3,'WIDGET_ADMIN','Ability to manage widgets, default is view only'),
-	(4,'GLOBALHTML_ADMIN','Ability to manage the system\'s global HTML content used on layouts'),
-	(5,'TOOLS_IMPORT','Ability to import data into ContentBox'),
-	(6,'SYSTEM_TAB','Access to the ContentBox System tools'),
-	(7,'PAGES_EDITOR','Ability to manage content pages but not publish pages'),
-	(8,'SYSTEM_UPDATES','Ability to view and apply ContentBox updates'),
-	(9,'ENTRIES_ADMIN','Ability to manage blog entries, default is view only'),
-	(10,'CUSTOMHTML_ADMIN','Ability to manage custom HTML, default is view only'),
-	(11,'VERSIONS_ROLLBACK','Ability to rollback content versions'),
-	(12,'RELOAD_MODULES','Ability to reload modules'),
-	(13,'COMMENTS_ADMIN','Ability to manage comments, default is view only'),
-	(14,'PERMISSIONS_ADMIN','Ability to manage permissions, default is view only'),
-	(15,'AUTHOR_ADMIN','Ability to manage authors, default is view only'),
-	(16,'MEDIAMANAGER_ADMIN','Ability to manage the system\'s media manager'),
-	(17,'ROLES_ADMIN','Ability to manage roles, default is view only'),
-	(18,'SYSTEM_RAW_SETTINGS','Access to the ContentBox raw geek settings panel'),
-	(19,'CATEGORIES_ADMIN','Ability to manage categories, default is view only'),
-	(20,'ENTRIES_EDITOR','Ability to manage blog entries but not publish entries'),
-	(21,'SYSTEM_SAVE_CONFIGURATION','Ability to update global configuration data'),
-	(22,'VERSIONS_DELETE','Ability to delete past content versions'),
-	(23,'EMAIL_TEMPLATE_ADMIN','Ability to manage the system\'s email templates'),
-	(24,'SECURITYRULES_ADMIN','Ability to manage the system\'s security rules, default is view only');
-
-/*!40000 ALTER TABLE `cb_permission` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table cb_role
-# ------------------------------------------------------------
-
+-- ----------------------------
+-- Table structure for `cb_role`
+-- ----------------------------
 DROP TABLE IF EXISTS `cb_role`;
-
 CREATE TABLE `cb_role` (
   `roleID` int(11) NOT NULL AUTO_INCREMENT,
-  `role` varchar(255) NOT NULL,
   `description` longtext,
+  `role` varchar(255) NOT NULL,
   PRIMARY KEY (`roleID`),
   UNIQUE KEY `role` (`role`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
-LOCK TABLES `cb_role` WRITE;
-/*!40000 ALTER TABLE `cb_role` DISABLE KEYS */;
+-- ----------------------------
+-- Records of cb_role
+-- ----------------------------
+INSERT INTO `cb_role` VALUES ('1', 'A ContentBox editor', 'Editor');
+INSERT INTO `cb_role` VALUES ('2', 'A ContentBox Administrator', 'Administrator');
 
-INSERT INTO `cb_role` (`roleID`, `role`, `description`)
-VALUES
-	(1,'Editor','A ContentBox editor'),
-	(2,'Administrator','A ContentBox Administrator'),
-	(3,'Customer','');
-
-/*!40000 ALTER TABLE `cb_role` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table cb_rolePermissions
-# ------------------------------------------------------------
-
+-- ----------------------------
+-- Table structure for `cb_rolePermissions`
+-- ----------------------------
 DROP TABLE IF EXISTS `cb_rolePermissions`;
-
 CREATE TABLE `cb_rolePermissions` (
   `FK_roleID` int(11) NOT NULL,
   `FK_permissionID` int(11) NOT NULL,
@@ -513,211 +469,188 @@ CREATE TABLE `cb_rolePermissions` (
   CONSTRAINT `FKDCCC1A4E9724FA40` FOREIGN KEY (`FK_roleID`) REFERENCES `cb_role` (`roleID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `cb_rolePermissions` WRITE;
-/*!40000 ALTER TABLE `cb_rolePermissions` DISABLE KEYS */;
+-- ----------------------------
+-- Records of cb_rolePermissions
+-- ----------------------------
+INSERT INTO `cb_rolePermissions` VALUES ('1', '16');
+INSERT INTO `cb_rolePermissions` VALUES ('1', '11');
+INSERT INTO `cb_rolePermissions` VALUES ('1', '19');
+INSERT INTO `cb_rolePermissions` VALUES ('1', '24');
+INSERT INTO `cb_rolePermissions` VALUES ('1', '12');
+INSERT INTO `cb_rolePermissions` VALUES ('1', '20');
+INSERT INTO `cb_rolePermissions` VALUES ('1', '17');
+INSERT INTO `cb_rolePermissions` VALUES ('1', '8');
+INSERT INTO `cb_rolePermissions` VALUES ('1', '4');
+INSERT INTO `cb_rolePermissions` VALUES ('1', '7');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '1');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '2');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '3');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '4');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '5');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '6');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '7');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '8');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '9');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '10');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '13');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '12');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '11');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '14');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '15');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '16');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '17');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '18');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '19');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '20');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '21');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '22');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '23');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '24');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '25');
+INSERT INTO `cb_rolePermissions` VALUES ('2', '26');
 
-INSERT INTO `cb_rolePermissions` (`FK_roleID`, `FK_permissionID`)
-VALUES
-	(1,13),
-	(1,10),
-	(1,7),
-	(1,19),
-	(1,20),
-	(1,2),
-	(1,4),
-	(1,16),
-	(1,11),
-	(2,1),
-	(2,2),
-	(2,3),
-	(2,4),
-	(2,5),
-	(2,6),
-	(2,7),
-	(2,8),
-	(2,9),
-	(2,10),
-	(2,11),
-	(2,12),
-	(2,13),
-	(2,15),
-	(2,14),
-	(2,16),
-	(2,17),
-	(2,18),
-	(2,19),
-	(2,21),
-	(2,20),
-	(2,23),
-	(2,22),
-	(2,24);
-
-/*!40000 ALTER TABLE `cb_rolePermissions` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table cb_securityRule
-# ------------------------------------------------------------
-
+-- ----------------------------
+-- Table structure for `cb_securityRule`
+-- ----------------------------
 DROP TABLE IF EXISTS `cb_securityRule`;
-
 CREATE TABLE `cb_securityRule` (
   `ruleID` int(11) NOT NULL AUTO_INCREMENT,
-  `whitelist` varchar(255) DEFAULT NULL,
+  `useSSL` bit(1) DEFAULT b'0',
   `securelist` varchar(255) NOT NULL,
+  `order` int(11) NOT NULL DEFAULT '0',
   `roles` varchar(255) DEFAULT NULL,
   `permissions` longtext,
   `redirect` longtext NOT NULL,
-  `useSSL` bit(1) DEFAULT b'0',
-  `order` int(11) NOT NULL DEFAULT '0',
   `match` varchar(50) DEFAULT NULL,
+  `whitelist` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ruleID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
-LOCK TABLES `cb_securityRule` WRITE;
-/*!40000 ALTER TABLE `cb_securityRule` DISABLE KEYS */;
+-- ----------------------------
+-- Records of cb_securityRule
+-- ----------------------------
+INSERT INTO `cb_securityRule` VALUES ('1', '', '^contentbox-admin:modules\\..*', '1', '', 'MODULES_ADMIN', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('2', '', '^contentbox-admin:mediamanager\\..*', '1', '', 'MEDIAMANAGER_ADMIN', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('3', '', '^contentbox-admin:versions\\.(remove)', '1', '', 'VERSIONS_DELETE', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('4', '', '^contentbox-admin:versions\\.(rollback)', '1', '', 'VERSIONS_ROLLBACK', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('5', '', '^contentbox-admin:emailtemplates\\..*', '2', '', 'EMAIL_TEMPLATE_ADMIN', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('6', '', '^contentbox-admin:widgets\\.(remove|upload|edit|save|create|doCreate)', '2', '', 'WIDGET_ADMIN', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('7', '', '^contentbox-admin:tools\\.(importer|doImport)', '3', '', 'TOOLS_IMPORT', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('8', '', '^contentbox-admin:(settings|permissions|roles|securityRules)\\..*', '4', '', 'SYSTEM_TAB', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('9', '', '^contentbox-admin:settings\\.save', '5', '', 'SYSTEM_SAVE_CONFIGURATION', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('10', '', '^contentbox-admin:settings\\.(raw|saveRaw|flushCache|flushSingletons|mappingDump|viewCached|remove)', '6', '', 'SYSTEM_RAW_SETTINGS', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('11', '', '^contentbox-admin:securityRules\\.(remove|save|changeOrder|apply)', '7', '', 'SECURITYRULES_ADMIN', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('12', '', '^contentbox-admin:roles\\.(remove|removePermission|save|savePermission)', '8', '', 'ROLES_ADMIN', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('13', '', '^contentbox-admin:permissions\\.(remove|save)', '9', '', 'PERMISSIONS_ADMIN', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('14', '', '^contentbox-admin:dashboard\\.reload', '10', '', 'RELOAD_MODULES', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('15', '', '^contentbox-admin:pages\\.(changeOrder|remove)', '11', '', 'PAGES_ADMIN', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('16', '', '^contentbox-admin:layouts\\.(remove|upload|rebuildRegistry|activate)', '12', '', 'LAYOUT_ADMIN', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('17', '', '^contentbox-admin:entries\\.(quickPost|remove)', '13', '', 'ENTRIES_ADMIN', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('18', '', '^contentbox-admin:customHTML\\.(editor|remove|save)', '14', '', 'CUSTOMHTML_ADMIN', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('19', '', '^contentbox-admin:comments\\.(doStatusUpdate|editor|moderate|remove|save|saveSettings)', '15', '', 'COMMENTS_ADMIN', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('20', '', '^contentbox-admin:categories\\.(remove|save)', '16', '', 'CATEGORIES_ADMIN', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('21', '', '^contentbox-admin:authors\\.(remove|removePermission|savePermission)', '17', '', 'AUTHOR_ADMIN', 'cbadmin/security/login', 'event', '');
+INSERT INTO `cb_securityRule` VALUES ('22', '', '^contentbox-admin:.*', '18', '', 'CONTENTBOX_ADMIN', 'cbadmin/security/login', 'event', '^contentbox-admin:security\\.');
+INSERT INTO `cb_securityRule` VALUES ('23', '', '^contentbox-filebrowser:.*', '19', '', 'MEDIAMANAGER_ADMIN', 'cbadmin/security/login', 'event', '');
 
-INSERT INTO `cb_securityRule` (`ruleID`, `whitelist`, `securelist`, `roles`, `permissions`, `redirect`, `useSSL`, `order`, `match`)
-VALUES
-	(1,'','^contentbox-admin:mediamanager\\..*','','MEDIAMANAGER_ADMIN','cbadmin/security/login',b'0',1,'event'),
-	(2,'','^contentbox-admin:versions\\.(remove)','','VERSIONS_DELETE','cbadmin/security/login',b'0',2,'event'),
-	(3,'','^contentbox-admin:versions\\.(rollback)','','VERSIONS_ROLLBACK','cbadmin/security/login',b'0',3,'event'),
-	(4,'','^contentbox-admin:emailtemplates\\..*','','EMAIL_TEMPLATE_ADMIN','cbadmin/security/login',b'0',4,'event'),
-	(5,'','^contentbox-admin:widgets\\.(remove|upload|edit|save|create|doCreate)','','WIDGET_ADMIN','cbadmin/security/login',b'0',5,'event'),
-	(6,'','^contentbox-admin:tools\\.(importer|doImport)','','TOOLS_IMPORT','cbadmin/security/login',b'0',6,'event'),
-	(7,'','^contentbox-admin:(settings|permissions|roles|securityRules)\\..*','','SYSTEM_TAB','cbadmin/security/login',b'0',7,'event'),
-	(8,'','^contentbox-admin:settings\\.save','','SYSTEM_SAVE_CONFIGURATION','cbadmin/security/login',b'0',8,'event'),
-	(9,'','^contentbox-admin:settings\\.(raw|saveRaw|flushCache|flushSingletons|mappingDump|viewCached|remove)','','SYSTEM_RAW_SETTINGS','cbadmin/security/login',b'0',9,'event'),
-	(10,'','^contentbox-admin:securityRules\\.(remove|save|changeOrder|apply)','','SECURITYRULES_ADMIN','cbadmin/security/login',b'0',10,'event'),
-	(11,'','^contentbox-admin:roles\\.(remove|removePermission|save|savePermission)','','ROLES_ADMIN','cbadmin/security/login',b'0',11,'event'),
-	(12,'','^contentbox-admin:permissions\\.(remove|save)','','PERMISSIONS_ADMIN','cbadmin/security/login',b'0',12,'event'),
-	(13,'','^contentbox-admin:dashboard\\.reload','','RELOAD_MODULES','cbadmin/security/login',b'0',13,'event'),
-	(14,'','^contentbox-admin:pages\\.(changeOrder|remove)','','PAGES_ADMIN','cbadmin/security/login',b'0',14,'event'),
-	(15,'','^contentbox-admin:layouts\\.(remove|upload|rebuildRegistry|activate)','','LAYOUT_ADMIN','cbadmin/security/login',b'0',15,'event'),
-	(16,'','^contentbox-admin:entries\\.(quickPost|remove)','','ENTRIES_ADMIN','cbadmin/security/login',b'0',16,'event'),
-	(17,'','^contentbox-admin:customHTML\\.(editor|remove|save)','','CUSTOMHTML_ADMIN','cbadmin/security/login',b'0',17,'event'),
-	(18,'','^contentbox-admin:comments\\.(doStatusUpdate|editor|moderate|remove|save|saveSettings)','','COMMENTS_ADMIN','cbadmin/security/login',b'0',18,'event'),
-	(19,'','^contentbox-admin:categories\\.(remove|save)','','CATEGORIES_ADMIN','cbadmin/security/login',b'0',19,'event'),
-	(20,'','^contentbox-admin:authors\\.(remove|removePermission|savePermission)','','AUTHOR_ADMIN','cbadmin/security/login',b'0',20,'event'),
-	(21,'^contentbox-admin:security\\.','^contentbox-admin:.*','','','cbadmin/security/login',b'0',21,'event'),
-	(22,'','^contentbox-filebrowser:.*','','MEDIAMANAGER_ADMIN','cbadmin/security/login',b'0',22,'event');
-
-/*!40000 ALTER TABLE `cb_securityRule` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table cb_setting
-# ------------------------------------------------------------
-
+-- ----------------------------
+-- Table structure for `cb_setting`
+-- ----------------------------
 DROP TABLE IF EXISTS `cb_setting`;
-
 CREATE TABLE `cb_setting` (
   `settingID` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `value` longtext NOT NULL,
   PRIMARY KEY (`settingID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8;
 
-LOCK TABLES `cb_setting` WRITE;
-/*!40000 ALTER TABLE `cb_setting` DISABLE KEYS */;
-
-INSERT INTO `cb_setting` (`settingID`, `name`, `value`)
-VALUES
-	(1,'cb_html_preCommentForm',''),
-	(2,'cb_comments_moderation_blockedlist',''),
-	(3,'cb_media_createFolders','true'),
-	(4,'cb_site_mail_tls','false'),
-	(5,'cb_paging_maxrows','20'),
-	(6,'cb_site_name','ContentBox Express'),
-	(7,'cb_comments_captcha','true'),
-	(8,'cb_comments_urltranslations','true'),
-	(9,'cb_comments_moderation_notify','true'),
-	(10,'cb_site_tagline','A very cool site'),
-	(11,'cb_comments_notify','true'),
-	(12,'cb_site_mail_username',''),
-	(13,'cb_site_mail_smtp','25'),
-	(14,'cb_rss_cachingTimeoutIdle','15'),
-	(15,'cb_content_caching','true'),
-	(16,'cb_media_uploadify_customOptions',''),
-	(17,'cb_site_mail_server',''),
-	(18,'cb_search_adapter','contentbox.model.search.DBSearch'),
-	(19,'cb_site_maintenance','false'),
-	(20,'cb_dashboard_recentPages','5'),
-	(21,'cb_html_preEntryDisplay',''),
-	(22,'cb_html_afterSideBar',''),
-	(23,'cb_comments_enabled','true'),
-	(24,'cb_html_postCommentForm',''),
-	(25,'cb_rss_caching','true'),
-	(26,'cb_paging_maxRSSComments','10'),
-	(27,'cb_site_mail_password',''),
-	(28,'cb_media_uplodify_fileDesc','All Files'),
-	(29,'cb_html_postEntryDisplay',''),
-	(30,'cb_site_description','My awesome site'),
-	(31,'cb_paging_maxentries','10'),
-	(32,'cb_media_uploadify_allowMulti','true'),
-	(33,'cb_html_afterFooter',''),
-	(34,'cb_html_afterBodyStart',''),
-	(35,'cb_site_layout','corporattica'),
-	(36,'cb_html_postIndexDisplay',''),
-	(37,'cb_site_mail_ssl','false'),
-	(38,'cb_html_beforeContent',''),
-	(39,'cb_dashboard_recentComments','5'),
-	(40,'cb_gravatar_display','true'),
-	(41,'cb_html_prePageDisplay',''),
-	(42,'cb_html_preArchivesDisplay',''),
-	(43,'cb_site_disable_blog','false'),
-	(44,'cb_site_keywords',''),
-	(45,'cb_site_homepage','cbBlog'),
-	(46,'cb_rss_maxEntries','10'),
-	(47,'cb_comments_maxDisplayChars','500'),
-	(48,'cb_rss_cachingTimeout','60'),
-	(49,'cb_html_beforeSideBar',''),
-	(50,'cb_content_cacheName','TEMPLATE'),
-	(51,'cb_html_preIndexDisplay',''),
-	(52,'cb_content_cachingTimeout','60'),
-	(53,'cb_comments_moderation','true'),
-	(54,'cb_media_uploadify_sizeLimit','0'),
-	(55,'cb_html_beforeHeadEnd',''),
-	(56,'cb_html_afterContent',''),
-	(57,'cb_notify_entry','true'),
-	(58,'cb_site_email','blog@grapestack.com'),
-	(59,'cb_media_directoryRoot','/grape/sites/blog/ROOT/modules/contentbox/content'),
-	(60,'cb_rss_maxComments','10'),
-	(61,'cb_site_maintenance_message','<h1>This site is down for maintenance.<br /> Please check back again soon.</h1>'),
-	(62,'cb_media_acceptMimeTypes',''),
-	(63,'cb_comments_notifyemails',''),
-	(64,'cb_media_allowDownloads','true'),
-	(65,'cb_media_allowDelete','true'),
-	(66,'cb_html_postArchivesDisplay',''),
-	(67,'cb_dashboard_recentEntries','5'),
-	(68,'cb_rss_cacheName','TEMPLATE'),
-	(69,'cb_html_beforeBodyEnd',''),
-	(70,'cb_comments_moderation_blacklist',''),
-	(71,'cb_site_outgoingEmail','blog@grapestack.com'),
-	(72,'cb_media_uplodify_fileExt','*.*;'),
-	(73,'cb_gravatar_rating','PG'),
-	(74,'cb_paging_bandgap','5'),
-	(75,'cb_html_postPageDisplay',''),
-	(76,'cb_comments_moderation_whitelist','true'),
-	(77,'cb_notify_page','true'),
-	(78,'cb_customHTML_caching','true'),
-	(79,'cb_media_quickViewWidth','400'),
-	(80,'cb_content_cachingTimeoutIdle','15'),
-	(81,'cb_comments_whoisURL','http://whois.arin.net/ui/query.do?q'),
-	(82,'cb_entry_caching','true'),
-	(83,'cb_search_maxResults','20'),
-	(84,'cb_notify_author','true'),
-	(85,'cb_media_allowUploads','true'),
-	(86,'cb_active','true');
-
-/*!40000 ALTER TABLE `cb_setting` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- ----------------------------
+-- Records of cb_setting
+-- ----------------------------
+INSERT INTO `cb_setting` VALUES ('1', 'cb_paging_maxRSSComments', '10');
+INSERT INTO `cb_setting` VALUES ('2', 'cb_site_mail_username', '');
+INSERT INTO `cb_setting` VALUES ('3', 'cb_paging_maxrows', '20');
+INSERT INTO `cb_setting` VALUES ('4', 'cb_gravatar_display', 'true');
+INSERT INTO `cb_setting` VALUES ('5', 'cb_media_createFolders', 'true');
+INSERT INTO `cb_setting` VALUES ('6', 'cb_site_maintenance_message', '<h1>This site is down for maintenance.<br /> Please check back again soon.</h1>');
+INSERT INTO `cb_setting` VALUES ('7', 'cb_html_afterContent', '');
+INSERT INTO `cb_setting` VALUES ('8', 'cb_dashboard_recentComments', '5');
+INSERT INTO `cb_setting` VALUES ('9', 'cb_customHTML_caching', 'true');
+INSERT INTO `cb_setting` VALUES ('10', 'cb_rss_cachingTimeoutIdle', '15');
+INSERT INTO `cb_setting` VALUES ('11', 'cb_html_afterSideBar', '');
+INSERT INTO `cb_setting` VALUES ('12', 'cb_comments_moderation', 'true');
+INSERT INTO `cb_setting` VALUES ('13', 'cb_entry_caching', 'true');
+INSERT INTO `cb_setting` VALUES ('14', 'cb_html_postIndexDisplay', '');
+INSERT INTO `cb_setting` VALUES ('15', 'cb_site_disable_blog', 'false');
+INSERT INTO `cb_setting` VALUES ('16', 'cb_site_mail_ssl', 'false');
+INSERT INTO `cb_setting` VALUES ('17', 'cb_notify_page', 'true');
+INSERT INTO `cb_setting` VALUES ('18', 'cb_html_afterBodyStart', '');
+INSERT INTO `cb_setting` VALUES ('19', 'cb_site_outgoingEmail', 'webmaster@grapestack.com');
+INSERT INTO `cb_setting` VALUES ('20', 'cb_comments_whoisURL', 'http://whois.arin.net/ui/query.do?q');
+INSERT INTO `cb_setting` VALUES ('21', 'cb_html_beforeBodyEnd', '');
+INSERT INTO `cb_setting` VALUES ('22', 'cb_html_postCommentForm', '');
+INSERT INTO `cb_setting` VALUES ('23', 'cb_rss_cacheName', 'Template');
+INSERT INTO `cb_setting` VALUES ('24', 'cb_media_allowDownloads', 'true');
+INSERT INTO `cb_setting` VALUES ('25', 'cb_search_maxResults', '20');
+INSERT INTO `cb_setting` VALUES ('26', 'cb_html_preCommentForm', '');
+INSERT INTO `cb_setting` VALUES ('27', 'cb_site_homepage', 'cbBlog');
+INSERT INTO `cb_setting` VALUES ('28', 'cb_site_maintenance', 'false');
+INSERT INTO `cb_setting` VALUES ('29', 'cb_notify_author', 'true');
+INSERT INTO `cb_setting` VALUES ('30', 'cb_rss_caching', 'true');
+INSERT INTO `cb_setting` VALUES ('31', 'cb_media_uploadify_sizeLimit', '0');
+INSERT INTO `cb_setting` VALUES ('32', 'cb_media_quickViewWidth', '400');
+INSERT INTO `cb_setting` VALUES ('33', 'cb_site_mail_tls', 'false');
+INSERT INTO `cb_setting` VALUES ('34', 'cb_versions_max_history', '');
+INSERT INTO `cb_setting` VALUES ('35', 'cb_html_beforeHeadEnd', '');
+INSERT INTO `cb_setting` VALUES ('36', 'cb_site_layout', 'default');
+INSERT INTO `cb_setting` VALUES ('37', 'cb_media_allowUploads', 'true');
+INSERT INTO `cb_setting` VALUES ('38', 'cb_content_cachingTimeoutIdle', '15');
+INSERT INTO `cb_setting` VALUES ('39', 'cb_comments_moderation_notify', 'true');
+INSERT INTO `cb_setting` VALUES ('40', 'cb_comments_urltranslations', 'true');
+INSERT INTO `cb_setting` VALUES ('41', 'cb_html_preArchivesDisplay', '');
+INSERT INTO `cb_setting` VALUES ('42', 'cb_html_prePageDisplay', '');
+INSERT INTO `cb_setting` VALUES ('43', 'cb_comments_moderation_whitelist', 'true');
+INSERT INTO `cb_setting` VALUES ('44', 'cb_comments_moderation_blockedlist', '');
+INSERT INTO `cb_setting` VALUES ('45', 'cb_notify_entry', 'true');
+INSERT INTO `cb_setting` VALUES ('46', 'cb_site_email', 'webmaster@grapestack.com');
+INSERT INTO `cb_setting` VALUES ('47', 'cb_content_caching', 'true');
+INSERT INTO `cb_setting` VALUES ('48', 'cb_html_postEntryDisplay', '');
+INSERT INTO `cb_setting` VALUES ('49', 'cb_comments_notify', 'true');
+INSERT INTO `cb_setting` VALUES ('50', 'cb_paging_bandgap', '5');
+INSERT INTO `cb_setting` VALUES ('51', 'cb_rss_maxEntries', '10');
+INSERT INTO `cb_setting` VALUES ('52', 'cb_search_adapter', 'contentbox.model.search.DBSearch');
+INSERT INTO `cb_setting` VALUES ('53', 'cb_html_postArchivesDisplay', '');
+INSERT INTO `cb_setting` VALUES ('54', 'cb_site_keywords', '');
+INSERT INTO `cb_setting` VALUES ('55', 'cb_html_beforeSideBar', '');
+INSERT INTO `cb_setting` VALUES ('56', 'cb_media_uploadify_customOptions', '');
+INSERT INTO `cb_setting` VALUES ('57', 'cb_comments_maxDisplayChars', '500');
+INSERT INTO `cb_setting` VALUES ('58', 'cb_comments_notifyemails', '');
+INSERT INTO `cb_setting` VALUES ('59', 'cb_site_mail_password', '');
+INSERT INTO `cb_setting` VALUES ('60', 'cb_html_preEntryDisplay', '');
+INSERT INTO `cb_setting` VALUES ('61', 'cb_html_postPageDisplay', '');
+INSERT INTO `cb_setting` VALUES ('62', 'cb_dashboard_recentPages', '5');
+INSERT INTO `cb_setting` VALUES ('63', 'cb_site_name', 'ContentBox');
+INSERT INTO `cb_setting` VALUES ('64', 'cb_content_cacheName', 'Template');
+INSERT INTO `cb_setting` VALUES ('65', 'cb_media_uplodify_fileDesc', 'All Files');
+INSERT INTO `cb_setting` VALUES ('66', 'cb_html_preIndexDisplay', '');
+INSERT INTO `cb_setting` VALUES ('67', 'cb_gravatar_rating', 'PG');
+INSERT INTO `cb_setting` VALUES ('68', 'cb_comments_enabled', 'true');
+INSERT INTO `cb_setting` VALUES ('69', 'cb_site_description', '');
+INSERT INTO `cb_setting` VALUES ('70', 'cb_content_cachingTimeout', '60');
+INSERT INTO `cb_setting` VALUES ('71', 'cb_media_directoryRoot', '/grape/sites/blog/ROOT/modules/contentbox/content');
+INSERT INTO `cb_setting` VALUES ('72', 'cb_site_mail_server', '');
+INSERT INTO `cb_setting` VALUES ('73', 'cb_media_allowDelete', 'true');
+INSERT INTO `cb_setting` VALUES ('74', 'cb_paging_maxentries', '10');
+INSERT INTO `cb_setting` VALUES ('75', 'cb_media_uplodify_fileExt', '*.*;');
+INSERT INTO `cb_setting` VALUES ('76', 'cb_comments_moderation_blacklist', '');
+INSERT INTO `cb_setting` VALUES ('77', 'cb_dashboard_recentEntries', '5');
+INSERT INTO `cb_setting` VALUES ('78', 'cb_site_tagline', 'asdfas');
+INSERT INTO `cb_setting` VALUES ('79', 'cb_media_acceptMimeTypes', '');
+INSERT INTO `cb_setting` VALUES ('80', 'cb_html_beforeContent', '');
+INSERT INTO `cb_setting` VALUES ('81', 'cb_rss_cachingTimeout', '60');
+INSERT INTO `cb_setting` VALUES ('82', 'cb_rss_maxComments', '10');
+INSERT INTO `cb_setting` VALUES ('83', 'cb_html_afterFooter', '');
+INSERT INTO `cb_setting` VALUES ('84', 'cb_comments_captcha', 'true');
+INSERT INTO `cb_setting` VALUES ('85', 'cb_media_uploadify_allowMulti', 'true');
+INSERT INTO `cb_setting` VALUES ('86', 'cb_site_mail_smtp', '25');
+INSERT INTO `cb_setting` VALUES ('87', 'cb_active', 'true');

@@ -461,6 +461,7 @@ sudo cp /grape/repo/assets/railo/railo-web.xml.cfm /grape/sites/$DOMAINNAME/ROOT
 
 cd /grape/tomcat/railo/railo-server/patches/
 sudo wget http://beta.grapestack.com/downloads/3.3.2.003.rc
+sudo wget http://beta.grapestack.com/downloads/3.3.5.001.rc
 
 sudo chown -R grape /home/grape
 sudo chown -R grape /grape
