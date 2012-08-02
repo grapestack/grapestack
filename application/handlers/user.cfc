@@ -104,7 +104,7 @@ component{
         if (isDefined("rc.facebookID")) {
             event.setLayout("Layout.FacebookAuth");
         } else {
-	        runEvent("Main.index");
+	        setNextEvent(uri='/');
         }
         
 		if (Event.isProxyRequest()) {

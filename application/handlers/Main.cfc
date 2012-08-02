@@ -114,9 +114,12 @@ component{
 	}	
 
 	function onAppInit() {
-       }
+    }
 
 	function onRequestStart() {
-       }
+    }
+       
+    function index() {
+    }
 
 }
