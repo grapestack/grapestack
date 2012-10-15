@@ -37,7 +37,7 @@ sudo grep -rl grapestack.com /grape/repo/ | sudo xargs sudo sed -i "s|grapestack
 #sudo cp /grape/repo/assets/id_rsa /root/.ssh/id_rsa
 #sudo cp /grape/repo/assets/id_rsa.pub /root/.ssh/id_rsa.pub
 
-sudo yum -y install httpd mod_ssl
+sudo yum -y install httpd mod_ssl php php-mysql
 sudo yum -y install nginx
 sudo yum -y install mysql-devel
 sudo yum -y install mysql-server
@@ -625,8 +625,8 @@ sudo chmod +x /grape/repo/assets/mail/mkcert.sh
 
 sudo /grape/repo/assets/mail/mkcert.sh
 
-sudo cp /grape/private/dovecot.pem /etc/pki/tls/private/mail.$DOMAINNAME.com.key
-sudo cp /grape/certs/dovecot.pem /etc/pki/tls/certs/mail.$DOMAINNAME.com.cert
+sudo cp /grape/private/dovecot.pem /etc/pki/tls/private/mail.$DOMAINNAME.key
+sudo cp /grape/certs/dovecot.pem /etc/pki/tls/certs/mail.$DOMAINNAME.cert
 
 sudo chmod +x /usr/local/bin/spamfilter
 

@@ -57,5 +57,5 @@ CREATE TABLE `users` (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('webmaster@grapestack.com', 'QsVRY5DWHPLMs');
-INSERT INTO `users` VALUES ('root@grapestack.com', 'QsVRY5DWHPLMs');
+INSERT INTO `users` VALUES ('webmaster@grapestack.com', ENCRYPT('stackpass'));
+INSERT INTO `users` VALUES ('root@grapestack.com', ENCRYPT('stackpass'));

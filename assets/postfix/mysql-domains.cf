@@ -1,5 +1,5 @@
 user = grape
-password = grapestack
+password = stackpass
 dbname = mail
 query = SELECT domain AS virtual FROM domains WHERE domain='%s'
 hosts = 127.0.0.1
