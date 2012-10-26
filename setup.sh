@@ -37,7 +37,7 @@ sudo grep -rl grapestack.com /grape/repo/ | sudo xargs sudo sed -i "s|grapestack
 #sudo cp /grape/repo/assets/id_rsa /root/.ssh/id_rsa
 #sudo cp /grape/repo/assets/id_rsa.pub /root/.ssh/id_rsa.pub
 
-sudo yum -y install httpd mod_ssl php php-mysql
+sudo yum -y install httpd mod_ssl php php-mysql php-zts
 sudo yum -y install nginx
 sudo yum -y install mysql-devel
 sudo yum -y install mysql-server
