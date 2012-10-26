@@ -393,7 +393,7 @@ cd /grape/install
 #sudo wget --no-check-certificate https://github.com/downloads/cloudant/bigcouch/bigcouch-0.3.1-1.x86_64.rpm
 #sudo wget --no-check-certificate http://beta.grapestack.com/downloads/bigcouch-0.3.1-1.x86_64.rpm
 #sudo rpm --install /grape/install/bigcouch-0.3.1-1.x86_64.rpm
-sudo hostname mail.$DOMAINNAME.com
+sudo hostname mail.$DOMAINNAME
 #sudo mv /opt/bigcouch /grape/bigcouch
 sudo cp /grape/repo/assets/default.ini /opt/bigcouch/etc/default.ini
 #sudo /grape/bigcouch/bin/bigcouch
