@@ -400,7 +400,7 @@ sudo hostname mail.$DOMAINNAME
 sudo cp /grape/repo/assets/default.ini /opt/bigcouch/etc/default.ini
 #sudo /grape/bigcouch/bin/bigcouch
 
-sudo wget http://www.alliedquotes.com/mirrors/apache/maven/binaries/apache-maven-2.2.1-bin.tar.gz
+sudo wget http://mirrors.ibiblio.org/apache/maven/maven-2/2.2.1/binaries/apache-maven-2.2.1-bin.tar.gz
 sudo chmod 700 apache-maven-2.2.1-bin.tar.gz
 sudo tar xzf apache-maven-2.2.1-bin.tar.gz
 sudo mv /grape/install/apache-maven-2.2.1 /grape/install/maven
@@ -430,18 +430,19 @@ export JAVA_HOME=/grape/install/jdk1.7.0
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin:/grape/install/jdk1.7.0/bin:/grape/install/maven/bin:/root/bin:/grape/install/jdk1.7.0:/grape/install/maven:/grape
 export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin:/grape/install/jdk1.7.0/bin:/grape/install/maven/bin:/root/bin:/grape/install/jdk1.7.0:/grape/install/maven:/grape
 
-sudo JAVA_HOME=/grape/install/jdk1.7.0 /grape/install/maven/bin/mvn
-cd target
-sudo yum -y install unzip
-sudo unzip /grape/install/couchdb-lucene/target/couchdb-lucene-0.9.0-SNAPSHOT-dist.zip
-sudo cp /grape/repo/assets/couchdb-lucene.ini /grape/install/couchdb-lucene/target/couchdb-lucene-0.9.0-SNAPSHOT/conf/
-sudo chown -R grape /grape
-#sudo /grape/install/couchdb-lucene/target/couchdb-lucene-0.9.0-SNAPSHOT/bin/run > /dev/null 2>&1 &
+#sudo JAVA_HOME=/grape/install/jdk1.7.0 /grape/install/maven/bin/mvn
+#cd target
+#sudo yum -y install unzip
+#sudo unzip /grape/install/couchdb-lucene/target/couchdb-lucene-0.9.0-SNAPSHOT-dist.zip
+#sudo cp /grape/repo/assets/couchdb-lucene.ini /grape/install/couchdb-lucene/target/couchdb-lucene-0.9.0-SNAPSHOT/conf/
+#sudo chown -R grape /grape
+#THIS RUNS IT- sudo /grape/install/couchdb-lucene/target/couchdb-lucene-0.9.0-SNAPSHOT/bin/run > /dev/null 2>&1 &
 
 #compiled and ready
-#cd /grape/install
-#sudo wget http://beta.grapestack.com/downloads/couchdb-lucene-0.9.0-SNAPSHOT-dist.tar.gz
-#sudo tar -xvf /grape/install/couchdb-lucene-0.9.0-SNAPSHOT-dist.tar.gz
+cd /grape/install
+sudo wget http://beta.grapestack.com/downloads/couchdb-lucene-0.9.0-SNAPSHOT-dist.tar.gz
+sudo tar -xvf /grape/install/couchdb-lucene-0.9.0-SNAPSHOT-dist.tar.gz
+sudo chown -R grape /grape
 
 #riak
 #sudo wget http://downloads.basho.com/riak/riak-1.0.0/riak-1.0.0-1.el5.x86_64.rpm
