@@ -135,6 +135,8 @@ sudo cp /grape/repo/assets/railo/railo-webContentBox.xml.cfm /grape/sites/blog/R
 
 sudo cp -R /grape/repo/assets/contentbox/bootstrap/ /grape/sites/blog/ROOT/modules/contentbox/layouts
 
+sudo cp -R /grape/repo/assets/contentbox/Application.cfc /grape/sites/blog/ROOT/Application.cfc
+
 sudo mkdir /grape/sites/admin
 sudo mkdir /grape/sites/admin/ROOT
 sudo mkdir /grape/sites/admin/ROOT/WEB-INF
@@ -462,6 +464,7 @@ sudo cp /grape/repo/assets/railo/railo-web.xml.cfm /grape/sites/$DOMAINNAME/ROOT
 cd /grape/tomcat/railo/railo-server/patches/
 sudo wget http://beta.grapestack.com/downloads/3.3.2.003.rc
 sudo wget http://beta.grapestack.com/downloads/3.3.5.001.rc
+sudo wget http://beta.grapestack.com/downloads/4.0.2.000.rc
 
 sudo chown -R grape /home/grape
 sudo chown -R grape /grape
