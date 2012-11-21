@@ -89,11 +89,13 @@ source ~/.bashrc
 cd /grape/install/
 
 #sudo wget --no-check-certificate http://www.getrailo.org/down.cfm?item=/railo/remote/download/3.2.3.000/custom/all/railo-3.2.3.000-jars.tar.gz -O /grape/install/railo.tar.gz
-sudo wget --no-check-certificate http://beta.grapestack.com/downloads/railo-3.3.1.000-jars.tar.gz -O /grape/install/railo.tar.gz
+#sudo wget --no-check-certificate http://beta.grapestack.com/downloads/railo-3.3.1.000-jars.tar.gz -O /grape/install/railo.tar.gz
+sudo wget --no-check-certificate http://beta.grapestack.com/downloads/railo-4.0.0.013-jars.tar.gz -O /grape/install/railo.tar.gz
 
 sudo tar -xvf /grape/install/railo.tar.gz
 
-sudo mv /grape/install/railo-3.3.1.000-jars /grape/tomcat/railo
+#sudo mv /grape/install/railo-3.3.1.000-jars /grape/tomcat/railo
+sudo mv /grape/install/railo-4.0.0.013-jars /grape/tomcat/railo
 
 cd /grape/sites/
 
@@ -573,13 +575,24 @@ export PATH=/grape/install/jdk1.7.0/bin:/grape:$PATH
 cd /grape/
 #sudo wget --no-check-certificate http://newverhost.com/pub//lucene/solr/3.4.0/apache-solr-3.4.0.tgz -O apache-solr-3.4.0.tgz
 sudo wget --no-check-certificate http://beta.grapestack.com/downloads/apache-solr-3.4.0.tgz -O apache-solr-3.4.0.tgz
+sudo wget --no-check-certificate http://mirror.symnds.com/software/Apache/lucene/solr/4.0.0/apache-solr-4.0.0.tgz -O apache-solr-4.0.0.tgz
 sudo tar -xf apache-solr-3.4.0.tgz
+sudo tar -xf apache-solr-4.0.0.tgz
 cd /grape/apache-solr-3.4.0/example
+cd /grape/apache-solr-4.0.0/example
+
 sudo mv /grape/apache-solr-3.4.0.tgz /grape/install/apache-solr-3.4.0.tgz
 sudo cp /grape/repo/assets/schema.xml /grape/apache-solr-3.4.0/example/solr/conf/schema.xml
+
+sudo mv /grape/apache-solr-4.0.0.tgz /grape/install/apache-solr-4.0.0.tgz
+#sudo cp /grape/repo/assets/schema.xml /grape/apache-solr-4.0.0/example/solr/collection1/conf/schema.xml
+
 sudo chown -R grape /grape
 #sudo java -Dsolr.solr.home=/grape/apache-solr-3.4.0/example/solr/ -jar start.jar
 #sudo java -Dsolr.solr.home=/grape/apache-solr-3.4.0/example/solr/ -jar start.jar > /dev/null 2>&1 &
+
+#sudo java -Dsolr.solr.home=/grape/apache-solr-4.0.0/example/solr/ -jar start.jar
+#sudo java -Dsolr.solr.home=/grape/apache-solr-4.0.0/example/solr/ -jar start.jar > /dev/null 2>&1 &
 
 #sudo cp /grape/repo/assets/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
 sudo yum -y install postfix dovecot dovecot-mysql procmail spamassassin
