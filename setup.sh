@@ -280,10 +280,18 @@ sudo make install
 which cloudfuse
 sudo mkdir /grape/cloudfiles
 sudo touch /home/grape/.cloudfuse
+
+sudo wget http://beta.grapestack.com/downloads/cloudfuse6.so -O /grape/cloudfuse/cloudfuse6
+
+sudo chown -R grape /grape
+
 sudo chown -R grape /home/grape
 
 sudo echo "username=rackspaceusername" >> /home/grape/.cloudfuse
 sudo echo "api_key=rackspaceapikey" >> /home/grape/.cloudfuse
+
+sudo echo "username=rackspaceusername" >> /root/.cloudfuse
+sudo echo "api_key=rackspaceapikey" >> /root/.cloudfuse
 
 sudo yum -y install libidn
 
