@@ -11,6 +11,9 @@
 
 <hr />
 
+<a href="/admin/users/manage" class="btn btn-primary"><i class="icon-lock icon-white"></i> Manage Users</a>
+<br />
+<br />
 <a href="#/credentials/add" class="btn btn-primary"><i class="icon-lock icon-white"></i> API Credentials</a>
 <br />
 <br />
