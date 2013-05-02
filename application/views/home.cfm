@@ -2,9 +2,11 @@
 <div id="sidebar"></div>
 
 <script type="text/template" id="color_template">
+<form class="form-horizontal">
 	<label>Change Color</label>
 	<input type="text" id="color_input" />
-	<input type="button" id="color_button" value="Change" />
+	<input type="button" id="color_button" value="Change" class="btn" />
+</form>
 </script>
 
 <script type="text/javascript">
@@ -61,7 +63,6 @@ var item = new ItemView().render();
 <style type="text/css">
 
 #sidebar {
-	height: 50px;
 	width: 500px;
 }
 

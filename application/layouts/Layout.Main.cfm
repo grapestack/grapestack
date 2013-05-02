@@ -1,51 +1,227 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>GRAPE Stack Sample Application</title>
+<html lang="en" ng-app>
+  <head>
+    <meta charset="utf-8">
+    <title>Sticky footer &middot; Twitter Bootstrap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-<script type="text/javascript" src="/includes/javascript/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" src="/includes/javascript/main.js"></script>
-<link rel="stylesheet" href="/includes/styles/main.css" id="mainCSS" />
+    <!-- CSS -->
+    <link href="/includes/assets/css/bootstrap.css" rel="stylesheet">
+    
+	<link rel="stylesheet" href="/includes/styles/main.css" id="mainCSS" />
 
-<link rel="stylesheet/less" href="/includes/bootstrap/lib/bootstrap.less">
+    <style type="text/css">
 
-<link rel="stylesheet" href="/includes/bootstrap/bootstrap.min.responsive.css">
+      /* Sticky footer styles
+      -------------------------------------------------- */
 
-<link rel="stylesheet" href="/includes/bootstrap/bootstrap.css">
+      html,
+      body {
+        height: 100%;
+        /* The html and body elements cannot have any padding or margin. */
+      }
 
-<script src="/includes/bootstrap/js/less.js"></script>
+      /* Wrapper for page content to push down footer */
+      #wrap {
+        min-height: 100%;
+        height: auto !important;
+        height: 100%;
+        /* Negative indent footer by it's height */
+        margin: 0 auto -60px;
+      }
 
-<!--  plugin sources -->
-<script src="/includes/bootstrap/js/bootstrap.min.js"></script>
+      /* Set the fixed height of the footer here */
+      #push,
+      #footer {
+        height: 60px;
+      }
+      #footer {
+        background-color: #f5f5f5;
+      }
+
+      /* Lastly, apply responsive CSS fixes as necessary */
+      @media (max-width: 767px) {
+        #footer {
+          margin-left: -20px;
+          margin-right: -20px;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }
 
 
-<style type="text/css">
 
-body {
-	margin-top: 60px;
-}
+      /* Custom page CSS
+      -------------------------------------------------- */
+      /* Not required for template or sticky footer method. */
 
-.active {
-	text-decoration: none !important;
-	text-decoration: underline !important;
-	font-weight: normal !important;
-}
+      #wrap > .container {
+        padding-top: 60px;
+      }
+      .container .credit {
+        margin: 20px 0;
+      }
 
-</style>
+      code {
+        font-size: 80%;
+      }
 
-</head>
-<body>
+	.modal-body-tall {
+		height: 370px;
+	}
 
-<div class="body">
-<cfif isDefined("session.User") and 1 eq 2>
-	<cfinclude template="/templates/menu.cfm">
-</cfif>
+	.typeahead {
+		max-height: 260px;
+		max-width: 220px;
+		left: 10px !important;
+		top: 0px !important;
+		overflow-x: hidden;
+		display: none;
+		position: relative;
+	}
+	
+	#myModalBody {
 
-<!--- Render The View. This is set wherever you want to render the view in your Layout. --->
-<cfoutput>#renderView()#</cfoutput>
+	}
 
-</div>
+	#recipients {
+		margin-left: 10px;
+		margin-bottom: 0px;
+	}
+	
+	#newFolder {
+		left: 10px;
+		top: 10px;
+		position: relative;
+		display: none;
+	}
+	
+	#createNewFolder {
+		left: 3px;
+		top: 10px;
+		position: relative;
+	}
+	
+	#recipientsMiddle {
+		margin-top: 15px !important;
+	}
+	
+	#recipientsLeft {
+		margin-top: 15px !important;
+		padding-left: 10px;
+	}
+	
+	.removeRecipient, .removeNew {
+		cursor: pointer;
+	}
+	
+	body .modal {
+    /* new custom width */
+    width: 800px;
+    /* must be half of the width, minus scrollbar on the left (30px) */
+    margin-left: -400px;
+	}
+	
+	#sendRecipients {
+		max-height: 200px;
+		max-width: 200px;
+		overflow-x: hidden;
+		overflow-y: auto;
+		top: 40px !important;
+		position: relative;
+		white-space:nowrap;
+	}
+	
+	#recipientHolderText {
+		white-space: normal;
+	}	
+	
+    </style>
+    <link href="/includes/assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="/includes/assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/includes/assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/includes/assets/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/includes/assets/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="/includes/assets/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="/includes/assets/ico/favicon.png">
+  </head>
+
+  <body>
+
+
+    <!-- Part 1: Wrap all page content here -->
+    <div id="wrap">
+
+      <!-- Fixed navbar -->
+      <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="#">grapestack.com</a>
+            <div class="nav-collapse collapse">
+              <ul class="nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li class="nav-header">Nav header</li>
+                    <li><a href="#">Separated link</a></li>
+                    <li><a href="#">One more separated link</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Begin page content -->
+      <div class="container">
+        <div class="page-header">
+          <h1>Sticky footer with fixed navbar</h1>
+        </div>
+        <p class="lead">
+        <cfoutput>#renderView()#</cfoutput>
+        </p>
+		</div>
+		<div id="push"></div>
+      </div>
+
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit">Example courtesy <a href="http://martinbean.co.uk">Martin Bean</a> and <a href="http://ryanfait.com/sticky-footer/">Ryan Fait</a>.</p>
+      </div>
+    </div>
+
+
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/includes/assets/js/jquery.js"></script>
+    <script src="/includes/assets/js/bootstrap.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
+	<script type="text/javascript" src="/includes/javascript/main.js"></script>
+
+
 
 <script type="text/javascript">
 	
@@ -64,7 +240,7 @@ $.getScript('http://connect.facebook.net/en_US/all.js', function() {
 }(document, 'script', 'facebook-jssdk'));
 
 
- FB.init({appId: '243370505738804', status: true, cookie: true, faces: true, xfbml: true, oauth: true});
+ FB.init({appId: '0000000000', status: true, cookie: true, faces: true, xfbml: true, oauth: true});
  
  	
 FB.getLoginStatus(function(response) {

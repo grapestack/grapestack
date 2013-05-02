@@ -372,10 +372,12 @@ host() {
 			if [ $HOST == 'r' ]; then
 					DOWNLOADIP="10.183.130.31"
 					clear
+					echo "$HOST" >> /grape/host
 					main
 			elif [ $HOST == 'a' ]; then
 					DOWNLOADIP="209.20.84.69"
 					clear
+					echo "$HOST" >> /grape/host
 					main
 			fi
 		

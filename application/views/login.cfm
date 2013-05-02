@@ -158,7 +158,7 @@
         
         <div class="column middleColumn">
         <hr  />
-        <a href="http://www.facebook.com/dialog/permissions.request?app_id=243370505738804&display=page&redirect_uri=http://dev.giftwishers.com/facebook&response_type=code&fbconnect=1&perms=email"><img src="/includes/images/facebook.png" border="0" /></a>
+        <a href="http://www.facebook.com/dialog/permissions.request?app_id=0000000000&display=page&redirect_uri=http://www.grapestack.com/facebook&response_type=code&fbconnect=1&perms=email"><img src="/includes/images/facebook.png" border="0" /></a>
         </div>
         
         <div class="column rightColumn clearfix">            

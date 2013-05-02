@@ -38,6 +38,7 @@ sudo grep -rl grapestack.com /grape/repo/ | sudo xargs sudo sed -i "s|grapestack
 #sudo cp /grape/repo/assets/id_rsa.pub /root/.ssh/id_rsa.pub
 
 sudo yum -y install httpd mod_ssl php php-mysql php-zts
+sudo yum -y install php-devel php-gd php-pecl-memcache php-pspell php-snmp php-xmlrpc php-xml php-mysql
 sudo yum -y install nginx
 sudo yum -y install mysql-devel
 sudo yum -y install mysql-server
@@ -118,6 +119,10 @@ cd /grape
 
 #sudo git clone git://github.com/grapestack/ContentBox.git
 sudo git clone git://github.com/Ortus-Solutions/ContentBox.git
+
+cd ContentBox
+
+sudo git checkout development
 
 sudo mkdir /grape/sites/blog
 sudo mkdir /grape/sites/blog/ROOT
@@ -583,16 +588,16 @@ export PATH=/grape/install/jdk1.7.0/bin:/grape:$PATH
 cd /grape/
 #sudo wget --no-check-certificate http://newverhost.com/pub//lucene/solr/3.4.0/apache-solr-3.4.0.tgz -O apache-solr-3.4.0.tgz
 sudo wget --no-check-certificate http://beta.grapestack.com/downloads/apache-solr-3.4.0.tgz -O apache-solr-3.4.0.tgz
-sudo wget --no-check-certificate http://mirror.symnds.com/software/Apache/lucene/solr/4.0.0/apache-solr-4.0.0.tgz -O apache-solr-4.0.0.tgz
+sudo wget --no-check-certificate http://archive.apache.org/dist/lucene/solr/4.2.1/solr-4.2.1.tgz -O apache-solr-4.2.1.tgz
 sudo tar -xf apache-solr-3.4.0.tgz
-sudo tar -xf apache-solr-4.0.0.tgz
+sudo tar -xf apache-solr-4.2.1.tgz
 cd /grape/apache-solr-3.4.0/example
-cd /grape/apache-solr-4.0.0/example
+cd /grape/apache-solr-4.2.1/example
 
 sudo mv /grape/apache-solr-3.4.0.tgz /grape/install/apache-solr-3.4.0.tgz
 sudo cp /grape/repo/assets/schema.xml /grape/apache-solr-3.4.0/example/solr/conf/schema.xml
 
-sudo mv /grape/apache-solr-4.0.0.tgz /grape/install/apache-solr-4.0.0.tgz
+sudo mv /grape/apache-solr-4.2.1.tgz /grape/install/apache-solr-4.2.1.tgz
 #sudo cp /grape/repo/assets/schema.xml /grape/apache-solr-4.0.0/example/solr/collection1/conf/schema.xml
 
 sudo chown -R grape /grape
