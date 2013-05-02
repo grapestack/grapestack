@@ -175,7 +175,7 @@
                 <li class="active"><a href="#">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i> <cfoutput>#session.User.email#</cfoutput> <b class="caret"></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog icon-white"></i> <cfoutput>#session.User.email#</cfoutput> <b class="caret"></b></a>
                   <ul class="dropdown-menu">
                     <li><a href="/logout"><i class="icon-off"></i> Logout</a></li>
                   </ul>
