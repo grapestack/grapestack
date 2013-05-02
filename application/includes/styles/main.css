@@ -188,10 +188,6 @@ strong {
 	width: auto;
 }
 
-.nav li:hover a {
-	background: none !important;
-}
-
 .btn-group .active {
 	text-decoration: none !important;
 }

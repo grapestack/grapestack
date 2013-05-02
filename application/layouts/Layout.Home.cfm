@@ -2,7 +2,7 @@
 <html lang="en" ng-app>
   <head>
     <meta charset="utf-8">
-    <title>Sticky footer &middot; Twitter Bootstrap</title>
+    <title>grapestack.com Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -174,17 +174,10 @@
               <ul class="nav">
                 <li class="active"><a href="#">Home</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i> <cfoutput>#session.User.email#</cfoutput> <b class="caret"></b></a>
                   <ul class="dropdown-menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li class="nav-header">Nav header</li>
-                    <li><a href="#">Separated link</a></li>
-                    <li><a href="#">One more separated link</a></li>
+                    <li><a href="/logout"><i class="icon-off"></i> Logout</a></li>
                   </ul>
                 </li>
               </ul>
@@ -196,7 +189,7 @@
       <!-- Begin page content -->
       <div class="container">
         <div class="page-header">
-          <h1>Sticky footer with fixed navbar</h1>
+          <h1><cfif security('admin')>Managing GRAPE Stack for grapestack.com<cfelse>Using grapestack.com as <cfoutput>#session.User.email#</cfoutput></cfif></h1>
         </div>
         <p class="lead">
 		<script src="/includes/assets/js/jquery.js"></script>
@@ -210,7 +203,7 @@
 
     <div id="footer">
       <div class="container">
-        <p class="muted credit">Example courtesy <a href="http://martinbean.co.uk">Martin Bean</a> and <a href="http://ryanfait.com/sticky-footer/">Ryan Fait</a>.</p>
+        <p class="muted credit">&copy; <cfoutput>#dateFormat(now(), "yyyy")#</cfoutput> grapestack.com</p>
       </div>
     </div>
 

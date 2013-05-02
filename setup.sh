@@ -526,39 +526,19 @@ sudo service mysql-proxy start
 
 sudo yum -y install bzip2 and bzip2-devel bzip2-libs
 
+sudo yum -y install gcc-c++
+
 node() {
 
 	cd /grape
-	sudo wget http://beta.grapestack.com/downloads/Python-2.5.4.tgz
-
-	sudo tar xzvf Python-2.5.4.tgz
-
-	cd Python-2.5.4
-	sudo ./configure
-	sudo make
-	sudo make install
-
-	sudo ln -s /grape/Python-2.5.4/python /usr/bin/python
-
-	sudo touch /etc/ld.so.conf.d/python2.5.conf
-
-	sudo chown -R grape /etc/ld.so.conf.d/python2.5.conf
-
-	sudo echo "'/usr/local/lib'" >> /etc/ld.so.conf.d/python2.5.conf
-
-	sudo ldconfig
 
 	PATH=$HOME/bin:/grape:$PATH
 	export PATH=$HOME/bin:/grape:$PATH
-
-	cd /grape
-
+	
 	sudo wget http://beta.grapestack.com/downloads/node-v0.6.6.tar.gz
 	sudo tar xvf node-v0.6.6.tar.gz
 	sudo mv node-v0.6.6 node
 	cd node
-
-	sudo yum -y install gcc-c++
 
 	sudo CC=/usr/bin/gcc CXX=/usr/bin/g++ ./configure
 	sudo make
@@ -569,18 +549,45 @@ node() {
 	sudo cp /grape/repo/assets/node.js /grape/node/www/node.js
 
 	sudo chown -R grape /grape
-
-	sudo rm /usr/local/bin/python
-
-	sudo ln -s /usr/bin/python2.6 /usr/local/bin/python
-
-	sudo ln -s /usr/bin/python2.6 /usr/bin/python
 	
 }
+
+cd /grape
+sudo wget http://beta.grapestack.com/downloads/Python-2.5.4.tgz
+
+sudo tar xzvf Python-2.5.4.tgz
+
+cd Python-2.5.4
+sudo ./configure
+sudo make
+sudo make install
+
+sudo ln -s /grape/Python-2.5.4/python /usr/bin/python
+
+sudo touch /etc/ld.so.conf.d/python2.5.conf
+
+sudo chown -R grape /etc/ld.so.conf.d/python2.5.conf
+
+sudo echo "'/usr/local/lib'" >> /etc/ld.so.conf.d/python2.5.conf
+
+sudo ldconfig
+
+PATH=$HOME/bin:/grape:$PATH
+export PATH=$HOME/bin:/grape:$PATH
 
 if [ $answers_0 == 1 ]; then
 	node
 fi
+
+sudo rm /usr/local/bin/python
+
+sudo ln -s /usr/bin/python2.6 /usr/local/bin/python
+
+sudo ln -s /usr/bin/python2.6 /usr/bin/python
+
+#sudo git clone git://github.com/openstack/python-novaclient.git
+#cd python-novaclient
+#sudo python setup.py install
 
 PATH=/grape/install/jdk1.7.0/bin:/grape:$PATH
 export PATH=/grape/install/jdk1.7.0/bin:/grape:$PATH

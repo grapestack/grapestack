@@ -1,11 +1,28 @@
 <div id="color_container"></div>
 <div id="sidebar"></div>
 
+<cfif security('admin')>
+
+<cfoutput>
+#rc.username#
+<br />
+#rc.key#
+</cfoutput>
+
+<hr />
+
+<a href="#/credentials/add" class="btn btn-primary"><i class="icon-lock icon-white"></i> API Credentials</a>
+<br />
+<br />
+<a href="#/server/add" class="btn btn-primary" disabled><i class="icon-plus icon-white"></i> Add New Server</a>
+
+<cfelse>
+
 <script type="text/template" id="color_template">
 <form class="form-horizontal">
-	<label>Change Color</label>
+	<label>Backbone.js example:</label>
 	<input type="text" id="color_input" />
-	<input type="button" id="color_button" value="Change" class="btn" />
+	<input type="button" id="color_button" value="Change Color" class="btn" />
 </form>
 </script>
 
@@ -60,10 +77,4 @@ var item = new ItemView().render();
 
 </script>
 
-<style type="text/css">
-
-#sidebar {
-	width: 500px;
-}
-
-</style>
+</cfif>
