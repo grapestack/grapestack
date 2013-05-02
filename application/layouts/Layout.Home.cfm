@@ -38,7 +38,7 @@
         height: 60px;
       }
       #footer {
-        background-color: #f5f5f5;
+        background-color: #4f2d54;
       }
 
       /* Lastly, apply responsive CSS fixes as necessary */
