@@ -1,4 +1,4 @@
-To install GRAPE Stack, create a new CentOS 6 instance in your Rackspace Cloud account and perform the following command chain as root before you perform *any* other actions on the server:
+To install GRAPE Stack, create a new CentOS 6.3 instance in your Rackspace Cloud account and perform the following command chain as root before you perform *any* other actions on the server:
 
 wget https://raw.github.com/grapestack/grapestack/master/install.sh -O /install.sh; chmod +x /install.sh; /install.sh
 
